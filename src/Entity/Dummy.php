@@ -140,7 +140,7 @@ class Dummy
      *
      * @return  self
      */
-    public function setStudy(string $study)
+    public function setStudy($study)
     {
         $this->study = $study;
 

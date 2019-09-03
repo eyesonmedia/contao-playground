@@ -164,7 +164,7 @@ class Dummy
      *
      * @return  self
      */
-    public function setDescription(string $description)
+    public function setDescription($description)
     {
         $this->description = $description;
 
@@ -188,7 +188,7 @@ class Dummy
      *
      * @return  self
      */
-    public function setPublished(string $published)
+    public function setPublished($published)
     {
         $this->published = $published;
 

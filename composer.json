@@ -1,5 +1,5 @@
 {
-    "name": "eonm/contao-playground-booking",
+    "name": "eonm/contao-playground",
     "type": "contao-bundle",
     "version": "1.0.0",
     "description": "eonm / bundle for contao +4.4",

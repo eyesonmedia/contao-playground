@@ -90,7 +90,7 @@ class Test
      *
      * @return  self
      */
-    public function setTstamp(int $tstamp)
+    public function setTstamp($tstamp)
     {
         $this->tstamp = $tstamp;
 
@@ -140,7 +140,7 @@ class Test
      *
      * @return  self
      */
-    public function setStudy(string $study)
+    public function setStudy($study)
     {
         $this->study = $study;
 
@@ -164,7 +164,7 @@ class Test
      *
      * @return  self
      */
-    public function setDescription(string $description)
+    public function setDescription($description)
     {
         $this->description = $description;
 
@@ -188,7 +188,7 @@ class Test
      *
      * @return  self
      */
-    public function setPublished(string $published)
+    public function setPublished($published)
     {
         $this->published = $published;
 

@@ -48,7 +48,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
     (
         'label' => array
         (
-            'fields' => array('title','firstname', 'lastname', 'registerdate', 'study'),
+            'fields' => array('tstamp', 'title','firstname', 'lastname', 'registerdate', 'study', 'status'),
             'showColumns' => true,
             'format' => '%s',
             //'label_callback' => array('tl_betasearch_search_backend', 'searchLabelCallback')
@@ -58,7 +58,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
         (
             'mode'                    => 2,
             'flag'                    => 1,
-            'fields'                  => array('firstname DESC'),
+            'fields'                  => array('tstamp DESC'),
             //'headerFields'            => array('firstname, lastname'),
             'panelLayout'             => 'filter;sort,search,limit',
             //'child_record_class'      => 'no_padding'
@@ -77,12 +77,12 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
         ),
         'operations' => array
         (
-            'edit' => array
+            /*'edit' => array
             (
                 'label'               => &$GLOBALS['TL_LANG']['eonm_registration']['edit'],
                 'href'                => 'table=tl_content',
                 'icon'                => 'edit.svg'
-            ),
+            ),*/
             'show' => array
             (
                 'label'               => &$GLOBALS['TL_LANG']['eonm_registration']['show'],
@@ -120,7 +120,8 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
             'sql' => "int(10) unsigned NOT NULL auto_increment"
         ],
         'tstamp' => [
-            'sql' => "int(10) unsigned NOT NULL"
+            'sql' => "int(10) unsigned NOT NULL",
+            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['tstamp'],
         ],
         'timeid' => [
             'sql' => "int(11) unsigned NOT NULL"
@@ -270,6 +271,20 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
             'eval' => ['mandatory' => true, 'maxlength' => 510],
             'sql' => "varchar(510) NOT NULL default ''"
         ],
+        'status' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['eonm_registration']['status'],
+            'exclude'                 => true,
+            'filter'                  => true,
+            'sorting'                 => true,
+            'inputType'               => 'select',
+            'options'                 => [1=>'aktiv', 2=>'storniert'],
+            'default'                 => 1,
+            //'foreignKey'            => 'tl_user.name',
+            //'options_callback'      => array('CLASS', 'METHOD'),
+            'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
         'patientdata' => [
             'label' => &$GLOBALS['TL_LANG']['eonm_registration']['patientdata'],
             'exclude' => true,
@@ -339,8 +354,11 @@ class  eonm_registration_cancel_backend extends Backend
         } else {
             return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: orange">Workflow gestartet</span>';
         }*/
-        return '<a href="' . $this->addToUrl('do=NuvisanManageRegistration&key=storno&time_id='.$arrRow['timeid'], true,
-                ['do']) . '" title="Registrierung stornieren" style="display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: green">Registrierung stornieren</a>';
+        if($arrRow['status'] == 'aktiv') {
+            return '<a href="' . $this->addToUrl('do=NuvisanManageRegistration&key=storno&time_id='.$arrRow['timeid'].'&registration_id='.$arrRow['id'], true, ['do']) . '" title="Registrierung stornieren" style="display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: green">Registrierung stornieren</a>';
+        } else {
+            return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: orange">Registrierung storniert</span>';
+        }
 
     }
 

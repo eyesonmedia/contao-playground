@@ -103,7 +103,7 @@ class Search
         return $data->getTime();
     }
 
-    public function addTimeCount($id)
+    public function addTimeCount($id, $registrationid)
     {
         $time = $this->entityManager->getRepository('SiowebDummyBundle:Time')->find($id);
 
@@ -115,8 +115,15 @@ class Search
 
         $count = $time->getCount();
         if ( $count < 5 ) {
+
             $time->setCount($count+1);
             $this->entityManager->flush();
+
+            $registration = $this->entityManager->getRepository('SiowebDummyBundle:Registration')->find($registrationid);
+            $registration->setStatus('storniert');
+            $this->entityManager->flush();
+
+
         } else {
             \Contao\Message::addError('<span style="padding: 20px 5px; display: inline-block;">Die Registration konnte nicht storniert werden! Maximale Termine vorhanden.</span>');
             \Contao\Controller::redirect('contao/main.php?do=NuvisanManageRegistration');
@@ -176,6 +183,7 @@ class Search
         $registration->setFemaledata(serialize($female));
         $registration->setPopulation($data['state']);
         $registration->setSmoker($data['smoker']);
+        $registration->setStatus('aktiv');
 
         $this->entityManager->persist($registration);
         $this->entityManager->flush();

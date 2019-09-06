@@ -12,6 +12,7 @@ $GLOBALS['TL_LANG']['eonm_registration']['cut'] = ['Anmeldung ausschneiden', 'Sc
 $GLOBALS['TL_LANG']['eonm_registration']['delete'] = ['Anmeldung Suche', 'Lösche %s Anmeldung'];
 $GLOBALS['TL_LANG']['eonm_registration']['show'] = ['Zeige Anmeldung an', 'Zeige Information zur Anmeldung %s'];
 $GLOBALS['TL_LANG']['eonm_registration']['title'] = ['Anrede', 'Anrede'];
+$GLOBALS['TL_LANG']['eonm_registration']['tstamp'] = ['Registrierungsdatum', 'Registrierungsdatum'];
 $GLOBALS['TL_LANG']['eonm_registration']['registergroup'] = ['Gruppe', 'Gruppe'];
 $GLOBALS['TL_LANG']['eonm_registration']['firstname'] = ['Vorname', 'Vorname'];
 $GLOBALS['TL_LANG']['eonm_registration']['lastname'] = ['Nachname', 'Nachname'];
@@ -24,3 +25,12 @@ $GLOBALS['TL_LANG']['eonm_registration']['city'] = ['Stadt', 'Stadt'];
 $GLOBALS['TL_LANG']['eonm_registration']['registerdate'] = ['Registrierungsdatum', 'Registrierungsdatum'];
 $GLOBALS['TL_LANG']['eonm_registration']['patientdata'] = ['Daten', 'Daten'];
 $GLOBALS['TL_LANG']['eonm_registration']['study'] = ['Studiencode', 'Studiencode'];
+$GLOBALS['TL_LANG']['eonm_registration']['status'] = ['Status', 'Status'];
+$GLOBALS['TL_LANG']['eonm_registration']['smoker'] = ['Raucher', 'Raucher'];
+$GLOBALS['TL_LANG']['eonm_registration']['id'] = ['ID', 'ID'];
+$GLOBALS['TL_LANG']['eonm_registration']['femaledata'] = ['Verhütungsdaten', 'Verhütungsdaten'];
+$GLOBALS['TL_LANG']['eonm_registration']['population'] = ['Population', 'Population'];
+
+$GLOBALS['TL_LANG']['eonm_registration']['edit'] = ['Anmeldung bearbeiten', 'Bearbeite Anmeldung %s'];
+
+

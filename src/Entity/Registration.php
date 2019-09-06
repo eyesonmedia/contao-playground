@@ -109,6 +109,12 @@ class Registration
      */
     private $smoker;
 
+    /**
+     * @var string
+     * @ORM\Column(type="text", length=255)
+     */
+    private $status;
+
 
     /**
      * @var string
@@ -483,6 +489,30 @@ class Registration
     public function setStudy($study)
     {
         $this->study = $study;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of status
+     *
+     * @return  int
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set the value of status
+     *
+     * @param  int  $status
+     *
+     * @return  self
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
 
         return $this;
     }

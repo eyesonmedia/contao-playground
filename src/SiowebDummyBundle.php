@@ -19,7 +19,7 @@ class SiowebDummyBundle extends Bundle
 
     public function exportRegistration()
     {
-        die('ddd');
+        die('Permission denied.');
     }
 
     public function makeStorno(\Contao\DC_Table $dc)

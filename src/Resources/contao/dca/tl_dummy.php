@@ -22,7 +22,7 @@
   * Entity /src/Entity/Dummy.php hinterlegt!
   */
 
-$GLOBALS['TL_DCA']['tl_dummy'] = array(
+$GLOBALS['TL_DCA']['eonm_times'] = array(
   // Config
   'config' => array
   (
@@ -37,8 +37,8 @@ $GLOBALS['TL_DCA']['tl_dummy'] = array(
     (
       'mode'                    => 4,
       'flag'                    => 2,
-      'fields'                  => array('title'),
-      'headerFields'            => array('title','language','tstamp'),
+      'fields'                  => array('time'),
+      'headerFields'            => array('time'),
       'panelLayout'             => 'filter;sort,search,limit',
       'child_record_class'      => 'no_padding'
     ),
@@ -56,45 +56,45 @@ $GLOBALS['TL_DCA']['tl_dummy'] = array(
     (
       'edit' => array
       (
-        'label'               => &$GLOBALS['TL_LANG']['tl_dummy']['edit'],
+        'label'               => &$GLOBALS['TL_LANG']['eonm_times']['edit'],
         'href'                => 'table=tl_content',
         'icon'                => 'edit.svg'
       ),
       'editheader' => array
       (
-        'label'               => &$GLOBALS['TL_LANG']['tl_dummy']['editmeta'],
+        'label'               => &$GLOBALS['TL_LANG']['eonm_times']['editmeta'],
         'href'                => 'act=edit',
         'icon'                => 'header.svg'
       ),
       'copy' => array
       (
-        'label'               => &$GLOBALS['TL_LANG']['tl_dummy']['copy'],
+        'label'               => &$GLOBALS['TL_LANG']['eonm_times']['copy'],
         'href'                => 'act=paste&amp;mode=copy',
         'icon'                => 'copy.svg'
       ),
       'cut' => array
       (
-        'label'               => &$GLOBALS['TL_LANG']['tl_dummy']['cut'],
+        'label'               => &$GLOBALS['TL_LANG']['eonm_times']['cut'],
         'href'                => 'act=paste&amp;mode=cut',
         'icon'                => 'cut.svg'
       ),
       'delete' => array
       (
-        'label'               => &$GLOBALS['TL_LANG']['tl_dummy']['delete'],
+        'label'               => &$GLOBALS['TL_LANG']['eonm_times']['delete'],
         'href'                => 'act=delete',
         'icon'                => 'delete.svg',
         'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
       ),
       'toggle' => array
       (
-        'label'               => &$GLOBALS['TL_LANG']['tl_dummy']['toggle'],
+        'label'               => &$GLOBALS['TL_LANG']['eonm_times']['toggle'],
         'icon'                => 'visible.svg',
         'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
         'button_callback'     => array('sioweb.dummy.dca.tl_dummy', 'toggleIcon')
       ),
       'show' => array
       (
-        'label'               => &$GLOBALS['TL_LANG']['tl_dummy']['show'],
+        'label'               => &$GLOBALS['TL_LANG']['eonm_times']['show'],
         'href'                => 'act=show',
         'icon'                => 'show.svg'
       )
@@ -104,8 +104,8 @@ $GLOBALS['TL_DCA']['tl_dummy'] = array(
   // Palettes
   'palettes' => array
   (
-    '__selector__'                => array('published'),
-    'default'                     => '{title_legend},title,alias;{teaser_legend},description;{publish_legend},published',
+    '__selector__'                => array('time'),
+    'default'                     => '{title_time}'
   ),
 
   'subpalettes' => array
@@ -120,55 +120,12 @@ $GLOBALS['TL_DCA']['tl_dummy'] = array(
     // ID, tstamp befinden sich in der Entity "Entity\Dummy.php"
     'title' => array
     (
-      'label'                   => &$GLOBALS['TL_LANG']['tl_dummy']['title'],
+      'label'                   => &$GLOBALS['TL_LANG']['eonm_times']['time'],
       'inputType'               => 'text',
       'exclude'                 => true,
       'filter'                  => true,
       'sorting'                 => true,
       'eval'                    => array('mandatory'=>true,'maxlength'=>255,'tl_class'=>'w50','gsIgnore'=>true),
     ),
-    'alias' => array
-    (
-      'label'                   => &$GLOBALS['TL_LANG']['tl_dummy']['alias'],
-      'exclude'                 => true,
-      'inputType'               => 'text',
-      'search'                  => true,
-      'eval'                    => array('rgxp'=>'alias','doNotCopy'=>true,'maxlength'=>128,'tl_class'=>'w50','gsIgnore'=>true),
-      'save_callback' => array
-      (
-        array('sioweb.dummy.dca.tl_dummy', 'generateAlias')
-      )
-    ),
-    'description' => array
-    (
-      'label'                   => &$GLOBALS['TL_LANG']['tl_dummy']['description'],
-      'exclude'                 => true,
-      'search'                  => true,
-      'inputType'               => 'textarea',
-      'eval'                    => array('rte'=>'tinyMCE','style'=>'height: 50px;','tl_class'=>'clr long','gsIgnore'=>true),
-    ),
-    'published' => array
-    (
-      'label'                   => &$GLOBALS['TL_LANG']['tl_dummy']['published'],
-      'exclude'                 => true,
-      'filter'                  => true,
-      'flag'                    => 1,
-      'inputType'               => 'checkbox',
-      'eval'                    => array('submitOnChange'=>true, 'doNotCopy'=>true),
-    ),
-    'start' => array
-    (
-      'label'                   => &$GLOBALS['TL_LANG']['tl_dummy']['start'],
-      'exclude'                 => true,
-      'inputType'               => 'text',
-      'eval'                    => array('rgxp'=>'datim', 'datepicker'=>true, 'tl_class'=>'w50 wizard'),
-    ),
-    'stop' => array
-    (
-      'label'                   => &$GLOBALS['TL_LANG']['tl_dummy']['stop'],
-      'exclude'                 => true,
-      'inputType'               => 'text',
-      'eval'                    => array('rgxp'=>'datim', 'datepicker'=>true, 'tl_class'=>'w50 wizard'),
-    )
   )
 );

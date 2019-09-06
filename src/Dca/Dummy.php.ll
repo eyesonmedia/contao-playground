@@ -4,7 +4,7 @@
  * Contao Open Source CMS
  */
 
-//declare (strict_types = 1);
+declare (strict_types = 1);
 namespace Sioweb\DummyBundle\Dca;
 
 use Contao\DataContainer;
@@ -68,6 +68,7 @@ class Dummy
      * @return string
      * @throws Exception
      */
+    /*
     public function generateAlias($varValue, DataContainer $dc)
     {
         $autoAlias = false;
@@ -91,7 +92,7 @@ class Dummy
         }
 
         return $varValue;
-    }
+    }*/
 
     /**
      * Return the "toggle visibility" button
@@ -231,6 +232,7 @@ class Dummy
      *
      * @return array
      */
+    /*
     public function getArticleAlias(DataContainer $dc)
     {
         $arrPids = array();
@@ -262,5 +264,5 @@ class Dummy
         }
 
         return $arrAlias;
-    }
+    }*/
 }

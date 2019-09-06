@@ -1,6 +1,6 @@
 services:
     sioweb.dummy.dca.tl_dummy:
-        class: Sioweb\Sioweb\Dca\Dummy
+        class: Sioweb\DummyBundle\Dca\Dummy
         public: true
         arguments:
             - "@contao.framework"

@@ -41,10 +41,6 @@ class SiowebDummyBundle extends Bundle
             foreach ($femaledata as $female) {
                 $femaledataExport .= utf8_decode($female).', ';
             }
-            
-            var_dump($femaledataExport);
-
-            die;
 
             $patientdataExport = '';
             $patientdata = unserialize(stream_get_contents($searchData->getPatientdata()));
@@ -53,6 +49,9 @@ class SiowebDummyBundle extends Bundle
             foreach ($patientdata as $patient) {
                     $patientdataExport .= utf8_decode($patient).', ';
             }
+
+            var_dump($patientdataExport);
+            dieM
 
             $data = array(
                 'Gruppe' => utf8_decode($searchData->getRegistergroup()),

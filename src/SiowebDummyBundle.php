@@ -35,21 +35,31 @@ class SiowebDummyBundle extends Bundle
 
             $femaledataExport = '';
             $femaledata = unserialize(stream_get_contents($searchData->getFemaledata()));
-
-            $countFemale = count($femaledata);
             var_dump($femaledata);
-            foreach ($femaledata as $female) {
-                $femaledataExport .= utf8_decode($female).', ';
+
+            if($femaledata != NULL ) {
+                $countFemale = count($femaledata);
+                var_dump($femaledata);
+                foreach ($femaledata as $female) {
+                    $femaledataExport .= utf8_decode($female).', ';
+                }
             }
+
+
 
             $patientdataExport = '';
             $patientdata = unserialize(stream_get_contents($searchData->getPatientdata()));
 
-            $countPatient = count($patientdata);
-            foreach ($patientdata as $patient) {
+            if($patientdata != NULL ) {
+                $countPatient = count($patientdata);
+                foreach ($patientdata as $patient) {
                     $patientdataExport .= utf8_decode($patient).', ';
+                }
             }
 
+
+
+die;
             $data = array(
                 'Gruppe' => utf8_decode($searchData->getRegistergroup()),
                 'Anrede' => utf8_decode($searchData->getTitle()),

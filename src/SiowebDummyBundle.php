@@ -36,6 +36,12 @@ class SiowebDummyBundle extends Bundle
             $femaledataExport = '';
             $femaledata = unserialize(stream_get_contents($searchData->getFemaledata()));
 
+            var_dump($femaledata);
+
+            var_dump($searchData->getFemaledata());
+
+            die;
+
             $countFemale = count($femaledata);
             foreach ($femaledata as $female) {
                 if($countFemale == 1) {

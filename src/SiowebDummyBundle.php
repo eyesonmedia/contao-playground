@@ -50,9 +50,6 @@ class SiowebDummyBundle extends Bundle
                     $patientdataExport .= utf8_decode($patient).', ';
             }
 
-            var_dump($patientdataExport);
-            die;
-
             $data = array(
                 'Gruppe' => utf8_decode($searchData->getRegistergroup()),
                 'Anrede' => utf8_decode($searchData->getTitle()),
@@ -71,6 +68,9 @@ class SiowebDummyBundle extends Bundle
                 'Registrierungsdatum' => utf8_decode($searchData->getTstamp()),
             );
 
+
+            var_dump($data);
+            die;
 
             #foreach ($searchData[0] as $datas ) {
             #var_dump($datas->getKeyword());

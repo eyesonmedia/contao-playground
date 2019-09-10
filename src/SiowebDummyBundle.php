@@ -49,7 +49,7 @@ class SiowebDummyBundle extends Bundle
 
             $patientdataExport = '';
             $patientdata = unserialize(stream_get_contents($searchData->getPatientdata()));
-
+            var_dump($patientdata);
             if($patientdata != NULL ) {
                 $countPatient = count($patientdata);
                 foreach ($patientdata as $patient) {

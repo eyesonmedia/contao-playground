@@ -107,8 +107,8 @@ class SiowebDummyBundle extends Bundle
         // Änderung speichern
         #$objMember->save();
         // Eine Meldung im Backend erzeugen
-        #\Contao\Message::addInfo('<span style="padding: 20px 5px; display: inline-block;">Export wird runtergeladen...</span>');
-        #\Contao\Controller::redirect('contao/main.php?do=NuvisanManageRegistration');
+        \Contao\Message::addInfo('<span style="padding: 20px 5px; display: inline-block;">Export wird runtergeladen...</span>');
+        \Contao\Controller::redirect('contao/main.php?do=NuvisanManageRegistration');
 
     }
 

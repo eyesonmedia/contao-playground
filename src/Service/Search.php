@@ -224,8 +224,5 @@ class Search
             fclose($fp);
         }
         ob_flush();
-
-        \Contao\Message::addInfo('<span style="padding: 20px 5px; display: inline-block;">Export wird runtergeladen...</span>');
-        \Contao\Controller::redirect('contao/main.php?do=NuvisanManageRegistration');
     }
 }

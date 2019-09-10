@@ -200,4 +200,32 @@ class Search
         #$registration->setFistname($data['first-name']);
         #$this->entityManager->flush();
     }
+
+    public function getRegistrationTable() {
+        $data = $this->entityManager->getRepository('SiowebDummyBundle:Registration')->findAll();
+        return $data;
+    }
+
+    public function outputCsv($fileName, $assocDataArray)
+    {
+        ob_clean();
+        header('Pragma: public');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Cache-Control: private', false);
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename=' . $fileName);
+        if(isset($assocDataArray['0'])){
+            $fp = fopen('php://output', 'w');
+            fputcsv($fp, array_keys($assocDataArray['0']), ';');
+            foreach($assocDataArray AS $values){
+                fputcsv($fp, $values, ';');
+            }
+            fclose($fp);
+        }
+        ob_flush();
+
+        \Contao\Message::addInfo('<span style="padding: 20px 5px; display: inline-block;">Export wird runtergeladen...</span>');
+        \Contao\Controller::redirect('contao/main.php?do=NuvisanManageRegistration');
+    }
 }

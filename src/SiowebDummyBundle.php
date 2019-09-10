@@ -37,9 +37,13 @@ class SiowebDummyBundle extends Bundle
             $femaledata = unserialize(stream_get_contents($searchData->getFemaledata()));
 
             $countFemale = count($femaledata);
+            var_dump($femaledata);
             foreach ($femaledata as $female) {
+                var_dump($female);
                     $femaledataExport .= utf8_decode($female).', ';
             }
+
+            die;
 
             $patientdataExport = '';
             $patientdata = unserialize(stream_get_contents($searchData->getPatientdata()));

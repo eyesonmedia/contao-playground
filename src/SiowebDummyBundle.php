@@ -39,9 +39,10 @@ class SiowebDummyBundle extends Bundle
             $countFemale = count($femaledata);
             var_dump($femaledata);
             foreach ($femaledata as $female) {
-                var_dump($female);
-                    $femaledataExport .= utf8_decode($female).', ';
+                $femaledataExport .= utf8_decode($female).', ';
             }
+            
+            var_dump($femaledataExport);
 
             die;
 

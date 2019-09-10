@@ -35,11 +35,9 @@ class SiowebDummyBundle extends Bundle
 
             $femaledataExport = '';
             $femaledata = unserialize(stream_get_contents($searchData->getFemaledata()));
-            var_dump($femaledata);
 
             if($femaledata != NULL ) {
                 $countFemale = count($femaledata);
-                var_dump($femaledata);
                 foreach ($femaledata as $female) {
                     $femaledataExport .= utf8_decode($female).', ';
                 }
@@ -49,7 +47,6 @@ class SiowebDummyBundle extends Bundle
 
             $patientdataExport = '';
             $patientdata = unserialize(stream_get_contents($searchData->getPatientdata()));
-            var_dump($patientdata);
             if($patientdata != NULL ) {
                 $countPatient = count($patientdata);
                 foreach ($patientdata as $patient) {
@@ -58,8 +55,7 @@ class SiowebDummyBundle extends Bundle
             }
 
 
-
-die;
+            
             $data = array(
                 'Gruppe' => utf8_decode($searchData->getRegistergroup()),
                 'Anrede' => utf8_decode($searchData->getTitle()),

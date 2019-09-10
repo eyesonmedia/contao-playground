@@ -51,7 +51,7 @@ class SiowebDummyBundle extends Bundle
             }
 
             var_dump($patientdataExport);
-            dieM
+            die;
 
             $data = array(
                 'Gruppe' => utf8_decode($searchData->getRegistergroup()),

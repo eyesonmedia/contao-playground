@@ -55,7 +55,7 @@ class SiowebDummyBundle extends Bundle
             }
 
 
-            
+
             $data = array(
                 'Gruppe' => utf8_decode($searchData->getRegistergroup()),
                 'Anrede' => utf8_decode($searchData->getTitle()),
@@ -73,10 +73,6 @@ class SiowebDummyBundle extends Bundle
                 utf8_decode('Verhütungsdaten') => $femaledataExport,
                 'Registrierungsdatum' => utf8_decode($searchData->getTstamp()),
             );
-
-
-            var_dump($data);
-            die;
 
             #foreach ($searchData[0] as $datas ) {
             #var_dump($datas->getKeyword());

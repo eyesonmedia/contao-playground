@@ -48,7 +48,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
     (
         'label' => array
         (
-            'fields' => array('tstamp', 'title','firstname', 'lastname', 'registerdate', 'study', 'status'),
+            'fields' => array('tstamp', 'title','firstname', 'lastname', 'birthday', 'registerdate', 'study', 'status'),
             'showColumns' => true,
             'format' => '%s',
             //'label_callback' => array('tl_betasearch_search_backend', 'searchLabelCallback')
@@ -355,9 +355,9 @@ class  eonm_registration_cancel_backend extends Backend
             return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: orange">Workflow gestartet</span>';
         }*/
         if($arrRow['status'] == 'aktiv') {
-            return '<a href="' . $this->addToUrl('do=NuvisanManageRegistration&key=storno&time_id='.$arrRow['timeid'].'&registration_id='.$arrRow['id'], true, ['do']) . '" title="Registrierung stornieren" style="display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: green">Registrierung stornieren</a>';
+            return '<a onclick="if(!confirm(\'Soll diese Anmeldung storniert werden?\'))return false;Backend.getScrollOffset()" href="' . $this->addToUrl('do=NuvisanManageRegistration&key=storno&time_id='.$arrRow['timeid'].'&registration_id='.$arrRow['id'], true, ['do']) . '" title="stornieren" style="display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: green">stornieren</a>';
         } else {
-            return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: orange">Registrierung storniert</span>';
+            return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: #c42302">storniert</span>';
         }
 
     }

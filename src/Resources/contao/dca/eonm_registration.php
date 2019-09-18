@@ -58,7 +58,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
         (
             'mode'                    => 2,
             'flag'                    => 1,
-            'fields'                  => array('tstamp DESC'),
+            'fields'                  => array('cdate DESC'),
             //'headerFields'            => array('firstname, lastname'),
             'panelLayout'             => 'filter;sort,search,limit',
             //'child_record_class'      => 'no_padding'
@@ -118,6 +118,10 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
         // ID, tstamp befinden sich in der Entity "Entity\Dummy.php"
         'id' => [
             'sql' => "int(10) unsigned NOT NULL auto_increment"
+        ],
+        'cdate' => [
+            'sql' => "int(10) unsigned NOT NULL",
+            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['cdate'],
         ],
         'tstamp' => [
             'sql' => "int(10) unsigned NOT NULL",

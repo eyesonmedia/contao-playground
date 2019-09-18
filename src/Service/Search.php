@@ -98,13 +98,15 @@ class Search
         if($varValue != 'NULL') {
             $timeid = $varValue;
 
-            $this->updateInternRegistation($_GET['id'], $timeid);
+            $time = $this->updateInternRegistation($_GET['id'], $timeid);
 
             $this->reduceTimeCount($timeid);
+
+            return $time;
+
         } else {
             \Contao\Message::addError('<span style="padding: 20px 5px; display: inline-block;">Die Anmeldung ist bereits aktiv und kann nur storniert werden.</span>');
         }
-
 
     }
 
@@ -328,8 +330,10 @@ class Search
         $timeasstring =  $day.', den '.$date.' um '.$time.' Uhr';
 
         $registration = $this->entityManager->getRepository('SiowebDummyBundle:Intern')->find($id);
+
         $registration->setStatus('aktiv');
-        $registration->setRegisterdate($timeasstring);
+
+        //$registration->setRegisterdate($timeasstring);
         $registration->setTimeid($timeid);
 
         $this->entityManager->flush();
@@ -373,6 +377,8 @@ class Search
         if (!$mailer->send($message) ) {
             die('Fehler! Anfrage konnte nicht verarbeitet werden.');
         }
+
+        return $timeasstring;
 
 
     }

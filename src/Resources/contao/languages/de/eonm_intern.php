@@ -13,6 +13,7 @@ $GLOBALS['TL_LANG']['eonm_intern']['delete'] = ['Anmeldung Suche', 'Lösche %s A
 $GLOBALS['TL_LANG']['eonm_intern']['show'] = ['Zeige Anmeldung an', 'Zeige Information zur Anmeldung %s'];
 $GLOBALS['TL_LANG']['eonm_intern']['title'] = ['Anrede', 'Anrede'];
 $GLOBALS['TL_LANG']['eonm_intern']['tstamp'] = ['Registrierungsdatum', 'Registrierungsdatum'];
+$GLOBALS['TL_LANG']['eonm_intern']['cdate'] = ['Registrierungsdatum', 'Registrierungsdatum'];
 $GLOBALS['TL_LANG']['eonm_intern']['registergroup'] = ['Gruppe', 'Gruppe'];
 $GLOBALS['TL_LANG']['eonm_intern']['firstname'] = ['Vorname', 'Vorname'];
 $GLOBALS['TL_LANG']['eonm_intern']['lastname'] = ['Nachname', 'Nachname'];

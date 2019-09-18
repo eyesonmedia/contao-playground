@@ -48,7 +48,7 @@ $GLOBALS['TL_DCA']['eonm_intern'] = array(
     (
         'label' => array
         (
-            'fields' => array('tstamp', 'title','firstname', 'lastname', 'birthday', 'registerdate', 'study', 'status'),
+            'fields' => array('cdate', 'title','firstname', 'lastname', 'birthday', 'registerdate', 'study', 'status'),
             'showColumns' => true,
             'format' => '%s',
             //'label_callback' => array('tl_betasearch_search_backend', 'searchLabelCallback')
@@ -58,7 +58,7 @@ $GLOBALS['TL_DCA']['eonm_intern'] = array(
         (
             'mode'                    => 2,
             'flag'                    => 1,
-            'fields'                  => array('tstamp DESC'),
+            'fields'                  => array('cdate DESC'),
             //'headerFields'            => array('firstname, lastname'),
             'panelLayout'             => 'filter;sort,search,limit',
             //'child_record_class'      => 'no_padding'
@@ -119,6 +119,10 @@ $GLOBALS['TL_DCA']['eonm_intern'] = array(
         'id' => [
             'sql' => "int(10) unsigned NOT NULL auto_increment"
         ],
+        'cdate' => [
+            'sql' => "int(50) unsigned NOT NULL",
+            'label' => &$GLOBALS['TL_LANG']['eonm_intern']['cdate'],
+        ],
         'tstamp' => [
             'sql' => "int(50) unsigned NOT NULL",
             'label' => &$GLOBALS['TL_LANG']['eonm_intern']['tstamp'],
@@ -147,7 +151,7 @@ $GLOBALS['TL_DCA']['eonm_intern'] = array(
             'sorting' => true,
             'flag' => 1,
             'inputType' => 'text',
-            'eval' => ['mandatory' => true, 'maxlength' => 510],
+            'eval' => ['disabled' => true, 'maxlength' => 510],
             'sql' => "varchar(510) NOT NULL default ''"
         ],
         'firstname' => [
@@ -248,7 +252,9 @@ $GLOBALS['TL_DCA']['eonm_intern'] = array(
             'save_callback' => [
                 function ($varValue, DataContainer $dataContainer)
                 {
-                    \Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->setInternDate($varValue, $dataContainer);
+                    $termin = \Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->setInternDate($varValue, $dataContainer);
+
+                    return $termin;
                     //return \System::getContainer()->get('freshframes_workflow.datacontainer.workflow')->prepareWorkflowContent($varValue, $dataContainer);
                 }
             ],

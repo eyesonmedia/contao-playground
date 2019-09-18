@@ -326,6 +326,7 @@ class Search
         $day = $tage[$week];
 
         $timeasstring =  $day.', den '.$date.' um '.$time.' Uhr';
+        var_dump($timeasstring);die;
 
 
         $registration = $this->entityManager->getRepository('SiowebDummyBundle:Intern')->find($id);

@@ -469,4 +469,69 @@ class Search
         }
         ob_flush();
     }
+
+
+    public function entryExists($lastname, $email, $birthday) {
+
+
+
+        $lastname = strtolower($lastname);
+        $email = strtolower($email);
+        $birthday = strtolower($birthday);
+
+
+        $check = $this->entityManager
+            ->createQueryBuilder()
+            ->select('r.lastname, r.email, r.birthday')
+            ->from('SiowebDummyBundle:Registration', 'r')
+            ->where('LOWER(r.lastname) LIKE :name')
+            ->andWhere('LOWER(r.email) LIKE :email')
+            ->andWhere('LOWER(r.birthday) LIKE :birthday')
+            ->setParameter('name', $lastname)
+            ->setParameter('email', $email)
+            ->setParameter('birthday', $birthday)
+            ->getQuery()
+            ->getResult();
+
+         if($check) {
+             //registrierung vorhanden
+             return true;
+         } else {
+             //registrierung nicht vorhanden
+             return false;
+         }
+
+    }
+
+    public function entryExistsIntern($lastname, $email, $birthday) {
+
+
+
+        $lastname = strtolower($lastname);
+        $email = strtolower($email);
+        $birthday = strtolower($birthday);
+
+
+        $check = $this->entityManager
+            ->createQueryBuilder()
+            ->select('r.lastname, r.email, r.birthday')
+            ->from('SiowebDummyBundle:Intern', 'r')
+            ->where('LOWER(r.lastname) LIKE :name')
+            ->andWhere('LOWER(r.email) LIKE :email')
+            ->andWhere('LOWER(r.birthday) LIKE :birthday')
+            ->setParameter('name', $lastname)
+            ->setParameter('email', $email)
+            ->setParameter('birthday', $birthday)
+            ->getQuery()
+            ->getResult();
+
+        if($check) {
+            //registrierung vorhanden
+            return true;
+        } else {
+            //registrierung nicht vorhanden
+            return false;
+        }
+
+    }
 }

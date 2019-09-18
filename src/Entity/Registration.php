@@ -134,6 +134,12 @@ class Registration
      */
     private $femaledata;
 
+    /**
+     * @var string
+     * @ORM\Column(type="text", length=255)
+     */
+    private $cdate;
+
 
     // Diese Funktion ist sehr hilfreich, um alle Daten als Array zu erhalten.
     public function getData() {
@@ -609,6 +615,30 @@ class Registration
     public function setFemaledata($femaledata)
     {
         $this->femaledata = $femaledata;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of cdate
+     *
+     * @return  int
+     */
+    public function getCdate()
+    {
+        return $this->cdate;
+    }
+
+    /**
+     * Set the value of cdate
+     *
+     * @param  int  $cdate
+     *
+     * @return  self
+     */
+    public function setCdate($cdate)
+    {
+        $this->cdate = $cdate;
 
         return $this;
     }

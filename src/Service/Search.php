@@ -440,6 +440,11 @@ class Search
         return $data;
     }
 
+    public function getInternRegistrationTable() {
+        $data = $this->entityManager->getRepository('SiowebDummyBundle:Intern')->findAll();
+        return $data;
+    }
+
     public function getRegistrationById($id) {
         $data = $this->entityManager->getRepository('SiowebDummyBundle:Registration')->find($id);
         return $data;

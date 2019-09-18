@@ -55,3 +55,4 @@ if(VERSION <= 4.5) {
 $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageRegistration']['storno'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'makeStorno');
 $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageIntern']['storno'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'makeStornoIntern');
 $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageRegistration']['export'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'exportRegistration');
+$GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageIntern']['export'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'exportInternRegistration');

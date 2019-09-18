@@ -329,9 +329,9 @@ class Search
 
         $registration = $this->entityManager->getRepository('SiowebDummyBundle:Intern')->find($id);
         $registration->setStatus('aktiv');
-        $registration->setTimeid($timeid);
         $registration->setRegisterdate($timeasstring);
-        $registration->setRegisterdate('OK');
+        $registration->setTimeid($timeid);
+
         $this->entityManager->flush();
 
         /*

@@ -23,33 +23,33 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class ApiController extends Controller
 {
 	public function indexAction() {
-		return new JsonResponse([
-      'success' => 1,
-      'funktion' => __METHOD__,
-      'foo' => 'bar'
-    ]);
+        return new JsonResponse([
+            'success' => 1,
+            'funktion' => __METHOD__,
+            'foo' => 'bar'
+        ]);
 	}
   
 	public function ichWillAlleDateinamenAction() {
   
-    $Files = [
-      '/files/test.jpg',
-      '/files/lorem.jpg',
-    ];
+        $Files = [
+            '/files/test.jpg',
+            '/files/lorem.jpg',
+        ];
     
-		return new JsonResponse([
-      'success' => 1,
-      'funktion' => __METHOD__,
-      'files' => $Files
-    ]);
+        return new JsonResponse([
+            'success' => 1,
+            'funktion' => __METHOD__,
+            'files' => $Files
+        ]);
 	}
   
   
 	public function ichWillEineDateiAction($filename) {
 		return new JsonResponse([
-      'success' => 1,
-      'funktion' => __METHOD__,
-      'file' => $filename
-    ]);
+            'success' => 1,
+            'funktion' => __METHOD__,
+            'file' => $filename
+        ]);
 	}
 }

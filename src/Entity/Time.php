@@ -21,8 +21,8 @@ class Time
     protected $id;
 
     /**
-     * @var int
-     * @ORM\Column(type="integer", options={"default" : 0})
+     * @var string
+     * @ORM\Column(type="text", length=65535, nullable=true)
      */
     protected $tstamp;
 
@@ -81,7 +81,7 @@ class Time
     /**
      * Get the value of tstamp
      *
-     * @return  int
+     * @return  string
      */
     public function getTstamp()
     {
@@ -91,7 +91,7 @@ class Time
     /**
      * Set the value of tstamp
      *
-     * @param  int  $tstamp
+     * @param  string  $tstamp
      *
      * @return  self
      */

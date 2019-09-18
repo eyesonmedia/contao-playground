@@ -39,10 +39,19 @@ if(VERSION <= 4.5) {
         ]
     ]);
 
+    array_insert($GLOBALS['BE_MOD']['DummyBundle'], 1 ,[
+        'NuvisanManageIntern' => [
+            'tables'      => array('eonm_intern'),
+            'table' => ['TableWizard', 'importTable'],
+            'list' => ['ListWizard', 'importList'],
+            //'callback'    => 'Sioweb\DummyBundle\ModuleBetasearch',
+            'export'     => array('DummyBundle', 'exportRegistration')
+        ]
+    ]);
+
 }
 
 
 $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageRegistration']['storno'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'makeStorno');
-
+$GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageIntern']['storno'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'makeStornoIntern');
 $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageRegistration']['export'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'exportRegistration');
-#$GLOBALS['BE_MOD']['DummyBundle']['FreshframesSearchManageSearch']['delete'] = array('Sioweb\DummyBundle\FreshframesSearchBundle', 'deleteSearch');

@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Time
- * @ORM\Table(name="`eonm_registration`")
+ * @ORM\Table(name="`eonm_intern`")
  * @ORM\Entity(repositoryClass="Sioweb\DummyBundle\Entity\Repository\TestRepository")
  */
-class Registration
+class Intern
 {
     /**
      * @var int
@@ -20,8 +20,8 @@ class Registration
     protected $id;
 
     /**
-     * @var string
-     * @ORM\Column(type="text", length=255)
+     * @var int
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
     protected $tstamp;
 

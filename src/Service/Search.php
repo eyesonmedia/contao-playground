@@ -331,6 +331,7 @@ class Search
         $registration->setStatus('aktiv');
         $registration->setTimeid($timeid);
         $registration->setRegisterdate($timeasstring);
+        $registration->setRegisterdate('OK');
         $this->entityManager->flush();
 
         /*

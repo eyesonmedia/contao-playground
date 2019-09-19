@@ -121,15 +121,15 @@ class Search
 
         $times = $this->entityManager
             ->createQueryBuilder()
-            ->select('t, d.date')
+            ->select('t, d.date, d.published')
             ->from('SiowebDummyBundle:Test', 'd')
             ->leftJoin('SiowebDummyBundle:Time', 't', 'WITH', 'd.id = t.dateid')
             ->where('d.id LIKE t.dateid')
             ->andWhere('t.count != 0')
+            ->andWhere('d.published = 1')
             ->orderBy('t.time', 'ASC')
             ->getQuery()
             ->getResult();
-
 
         $avaibledates = array();
 
@@ -511,10 +511,9 @@ class Search
         $email = strtolower($email);
         $birthday = strtolower($birthday);
 
-
         $check = $this->entityManager
             ->createQueryBuilder()
-            ->select('r.lastname, r.email, r.birthday')
+            ->select('r.lastname, r.email, r.birthday, r.status')
             ->from('SiowebDummyBundle:Intern', 'r')
             ->where('LOWER(r.lastname) LIKE :name')
             ->andWhere('LOWER(r.email) LIKE :email')
@@ -525,7 +524,11 @@ class Search
             ->getQuery()
             ->getResult();
 
-        if($check) {
+
+        if($check['0']['status'] == 'storniert') {
+            //registrierung vorhanden aber storniert
+            return false;
+        } elseif($check) {
             //registrierung vorhanden
             return true;
         } else {

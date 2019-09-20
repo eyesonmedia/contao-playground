@@ -485,7 +485,7 @@ class Search
 
         $check = $this->entityManager
             ->createQueryBuilder()
-            ->select('r.lastname, r.email, r.birthday')
+            ->select('r.lastname, r.email, r.birthday, r.status')
             ->from('SiowebDummyBundle:Registration', 'r')
             ->where('LOWER(r.lastname) LIKE :name')
             ->andWhere('LOWER(r.email) LIKE :email')

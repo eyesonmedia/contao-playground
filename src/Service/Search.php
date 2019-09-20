@@ -485,7 +485,7 @@ class Search
 
         $check = $this->entityManager
             ->createQueryBuilder()
-            ->select('r.lastname, r.email, r.birthday, r.status')
+            ->select('r.lastname, r.email, r.birthday')
             ->from('SiowebDummyBundle:Registration', 'r')
             ->where('LOWER(r.lastname) LIKE :name')
             ->andWhere('LOWER(r.email) LIKE :email')
@@ -496,16 +496,13 @@ class Search
             ->getQuery()
             ->getResult();
 
-        if($check['0']['status'] == 'storniert') {
-            //registrierung vorhanden aber storniert
-            return false;
-        } elseif($check) {
-            //registrierung vorhanden
-            return true;
-        } else {
-            //registrierung nicht vorhanden
-            return false;
-        }
+         if($check) {
+             //registrierung vorhanden
+             return true;
+         } else {
+             //registrierung nicht vorhanden
+             return false;
+         }
 
     }
 

@@ -229,7 +229,7 @@ class SiowebDummyBundle extends Bundle
          */
         $transport = \Swift_SmtpTransport::newInstance( 'w00a0565.kasserver.com', 587 );
         $transport->setUsername( 'm042205d' );
-        $transport->setPassword( 'qBxxf6YENJWXtb38' );
+        $transport->setPassword( 'UBqaImtNxpgVJ9gavxzI4G421G' );
 
         /*
          * get message class / set message and set mail header
@@ -289,7 +289,7 @@ class SiowebDummyBundle extends Bundle
          */
         $transport = \Swift_SmtpTransport::newInstance( 'w00a0565.kasserver.com', 587 );
         $transport->setUsername( 'm042205d' );
-        $transport->setPassword( 'qBxxf6YENJWXtb38' );
+        $transport->setPassword( 'UBqaImtNxpgVJ9gavxzI4G421G' );
 
         /*
          * get message class / set message and set mail header

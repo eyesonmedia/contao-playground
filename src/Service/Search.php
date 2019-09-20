@@ -51,7 +51,7 @@ class Search
     {
         $workflowList = $this->entityManager
             ->getRepository('SiowebDummyBundle:Test')
-            ->findBy(array(), array('date' => 'ASC'));
+            ->findBy(array(), array('date' => 'DESC'));
         #$workflowList = $this->entityManager->getRepository('SiowebDummyBundle:Test')->findAll();
 
         return $workflowList;

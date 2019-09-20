@@ -163,6 +163,7 @@ class SiowebDummyBundle extends Bundle
                 'Patientendaten' => $patientdataExport,
                 utf8_decode('Verhütungsdaten') => $femaledataExport,
                 'Registrierungsdatum' => utf8_decode($searchData->getCdate()),
+                'Status' =>  utf8_decode($searchData->getStatus()),
             );
 
             #foreach ($searchData[0] as $datas ) {

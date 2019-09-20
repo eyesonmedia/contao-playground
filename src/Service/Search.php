@@ -496,13 +496,16 @@ class Search
             ->getQuery()
             ->getResult();
 
-         if($check) {
-             //registrierung vorhanden
-             return true;
-         } else {
-             //registrierung nicht vorhanden
-             return false;
-         }
+        if($check['0']['status'] == 'storniert') {
+            //registrierung vorhanden aber storniert
+            return false;
+        } elseif($check) {
+            //registrierung vorhanden
+            return true;
+        } else {
+            //registrierung nicht vorhanden
+            return false;
+        }
 
     }
 

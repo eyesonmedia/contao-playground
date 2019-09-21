@@ -739,10 +739,13 @@ $html='<header>
     }
 
 
-    public function outputHTMLCheckout()
+    public function outputHTMLCheckout($data)
     {
-        #var_dump($data->getBirthday());die;
 
+        $birthdate = new \DateTime($data->getBirthday());
+        $slotdate = new \DateTime($data->getRegisterdate().' '.$data->getRegistertime());
+        $age = date_diff(date_create($data->getBirthday()), date_create('today'))->y;
+        
         header('Pragma: public');
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
@@ -774,22 +777,22 @@ $html='<header>
 </tr>
 <tr>
 <td width="30%"><p><strong>Slot date:</strong></p></td>
-<td colspan="2" width="70%"><p>00 / 00 / 0000 <small>(DD/MMM/YYYY)</small></p></td>
+<td colspan="2" width="70%"><p>'.$slotdate->format('d / m / Y').' <small>(DD/MMM/YYYY)</small></p></td>
 </tr>
 <tr>
 <td width="30%"><p><strong>Slot Time:</strong></p></td>
-<td colspan="2" width="70%"><p>00 : 00 <small>(hh:min)</small></p></td>
+<td colspan="2" width="70%"><p>'.$slotdate->format('H : i').' <small>(hh:min)</small></p></td>
 </tr>
 <tr>
 <td colspan="3"></td>
 </tr>
 <tr>
 <td width="30%"><p><strong>Birth date:</strong></p></td>
-<td colspan="2" width="70%"><p>00 / 00 / 0000 <small>(DD/MMM/YYYY)</small></p></td>
+<td colspan="2" width="70%"><p>'.$birthdate->format('d / m / Y').' <small>(DD/MMM/YYYY)</small></p></td>
 </tr>
 <tr>
 <td width="30%"><p><strong>Age:</strong></p></td>
-<td colspan="2" width="70%"><p>## <small>(if age over 18 - exclusion from study)</small></p></td>
+<td colspan="2" width="70%"><p>'.$age.' <small>(if age over 18 - exclusion from study)</small></p></td>
 </tr>
 <tr>
 <td width="70%"><p>Personal data were checked by verification of the identity card during check in-as well as a double registration to avoid multiple participations:</p></td>

@@ -5,6 +5,7 @@ namespace Sioweb\DummyBundle\Service;
 use Doctrine\ORM\EntityManager;
 use Sioweb\DummyBundle\Entity\Intern;
 use Sioweb\DummyBundle\Entity\Registration;
+use Sioweb\DummyBundle\Entity\Study;
 
 class Search
 {
@@ -476,8 +477,6 @@ class Search
 
     public function entryExists($lastname, $email, $birthday) {
 
-
-
         $lastname = strtolower($lastname);
         $email = strtolower($email);
         $birthday = strtolower($birthday);
@@ -485,7 +484,7 @@ class Search
 
         $check = $this->entityManager
             ->createQueryBuilder()
-            ->select('r.lastname, r.email, r.birthday')
+            ->select('r.lastname, r.email, r.birthday, r.status')
             ->from('SiowebDummyBundle:Registration', 'r')
             ->where('LOWER(r.lastname) LIKE :name')
             ->andWhere('LOWER(r.email) LIKE :email')
@@ -496,13 +495,16 @@ class Search
             ->getQuery()
             ->getResult();
 
-         if($check) {
-             //registrierung vorhanden
-             return true;
-         } else {
-             //registrierung nicht vorhanden
-             return false;
-         }
+        if($check['0']['status'] == 'storniert') {
+            //registrierung vorhanden aber storniert
+            return false;
+        } elseif($check) {
+            //registrierung vorhanden
+            return true;
+        } else {
+            //registrierung nicht vorhanden
+            return false;
+        }
 
     }
 
@@ -555,5 +557,287 @@ class Search
         }
 
         return true;
+    }
+
+
+    public function setRegistrationCheckin($id) {
+        /*
+         * update registration status to checkin first
+         */
+        $registration = $this->entityManager->getRepository('SiowebDummyBundle:Registration')->find($id);
+        $registration->setStatus('checked-in');
+        $this->entityManager->flush();
+    }
+
+    public function generateStudy($id, $date, $timedata) {
+        $registrationdata =\Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->getRegistrationById($id);
+        $study = new Study();
+        $study->setTimeid($registrationdata->getTimeid());
+        $study->setRegistrationid($registrationdata->getId());
+        $study->setRegistergroup($registrationdata->getRegistergroup());
+        if($registrationdata->getTitle() == 'Herr') {
+            $study->setTitle('männlich');
+        } else {
+            $study->setTitle('weiblich');
+        }
+        $study->setFirstname($registrationdata->getFirstname());
+        $study->setLastname($registrationdata->getLastname());
+        $study->setEmail($registrationdata->getEmail());
+        $study->setPhone($registrationdata->getPhone());
+        $study->setStreet($registrationdata->getStreet());
+        $study->setZip($registrationdata->getZip());
+        $study->setCity($registrationdata->getCity());
+        $study->setBirthday($registrationdata->getBirthday());
+        $study->setRegisterdate($date);
+        $study->setRegistertime($timedata);
+        $study->setStudy($registrationdata->getStudy());
+        $study->setStatus('offen');
+
+        $this->entityManager->persist($study);
+        $this->entityManager->flush();
+    }
+
+    public function getStudyById($id)
+    {
+        $study = $this->entityManager
+            ->createQueryBuilder()
+            ->select('s')
+            ->from('SiowebDummyBundle:Study', 's')
+            ->where('s.id LIKE :registrationid')
+            ->setParameter('registrationid', $id)
+            ->getQuery()
+            ->getResult();
+
+        return $study['0'];
+    }
+
+
+    public function outputHTMLCheckin($data)
+    {
+        #var_dump($data->getBirthday());die;
+
+        header('Pragma: public');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Cache-Control: private', false);
+        header('Content-Type: application/pdf');
+        header('content-Disposition:attachment;filename="downloaded.pdf"');
+
+        $pdf = new \TCPDF( 'P', 'mm', 'A4' );
+        $pdf->SetMargins(22, 20, 15, true);
+        $pdf->AddPage ( 'P' );
+        $bMargin = $pdf->getBreakMargin();
+        $auto_page_break = $pdf->getAutoPageBreak();
+        $pdf->SetAutoPageBreak(false, 0);
+        $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
+        $pdf->setPageMark();
+
+$html='<header>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+<td width="70%">&nbsp;</td>
+<td width="30%"><img src="https://nuvisan.de/themes/nuvisan/img/nuvisan-logo-static.png" style="width: 200px" height="auto">
+</td>
+</tr>
+</table>
+</header>
+<section>
+<h1>ANMELDEFORMULAR FÜR STUDIENINTERESSENTEN</h1>
+<p>&nbsp;</p>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+<td width="60%">
+<p>Probanden-NR.:<br><small>(wird vom Mitarbeiter der Studieninformation ausgefüllt)
+</small></p>
+</td>
+<td width="40%">____________________________</td>
+</tr>
+</table>
+<p>&nbsp;</p>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+<td width="40%">
+<p><strong>Familienname</strong></p>
+</td>
+<td width="60%">'.$data->getLastname().'</td>
+</tr>
+<tr>
+<td width="40%">
+<p><strong>Vorname(n):</strong></p>
+</td>
+<td width="60%">'.$data->getFirstname().'</td>
+</tr>
+<tr>
+<td width="40%">
+<p><strong>Geburtsdatum:</strong></p>
+</td>
+<td width="60%">'.$data->getBirthday().'</td>
+</tr>
+<tr>
+<td width="40%">
+<p><strong>Geschlecht:</strong></p>
+</td>
+<td width="60%">'.$data->getTitle().'</td>
+</tr>
+<tr>
+<td width="40%">
+<p><strong>Anschrift:</strong></p>
+</td>
+<td width="60%">'.$data->getStreet().'<br>'.$data->getZip().' '.$data->getCity().'</td>
+</tr>
+</table>
+<p>&nbsp;</p>
+</section>
+<section>
+<p>Zustimmung laut Datenschutzgesetz:<br>Hiermit stimme ich zu, dass die hier angegebenen und die studienbezogenen Daten bei NUVISAN GmbH elektronisch gespeichert und verarbeitet werden. 
+</p>
+</section>
+<section>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+<td width="50%">&nbsp;</td>
+<td width="50%">&nbsp;</td>
+</tr>
+<tr>
+<td width="50%" style="border-top: 1px solid #000000; padding-top: 4px;"><p><strong>Neu-Ulm, den '. date("d.m.Y") .'</strong></p></td>
+<td width="50%" style="border-top: 1px solid #000000; padding-top: 4px;"><p><strong>Unterschrift Studieninteressent / in</strong></p></td>
+</tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</section>
+<section>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+<td width="60%" valign="top"><p>Übertrag der Daten in Datenbank erfolgte von:</p></td>
+<td width="40%" valign="top">____________________________<br><small>(Datum, Kürzel)</small></td>
+</tr>
+<tr>
+<td width="60%" valign="top"><p>&nbsp;</p></td>
+<td width="40%" valign="top"><p>&nbsp;</p></td>
+</tr>
+<tr>
+<td width="60%" valign="top"><p>Review Übertrag in Datenbank <small>(festangestellter Recruiter)</small>:</p></td>
+<td width="40%" valign="top">____________________________<br><small>(Datum, Kürzel)</small></td>
+</tr>
+</table>
+</section>
+';
+
+        $pdf->WriteHTML($html);
+        $pdf->Output ();
+    }
+
+    public function setCheckinStatus($id)
+    {
+        $study = $this->entityManager->getRepository('SiowebDummyBundle:Study')->find($id);
+        $study->setStatus('Checkin/Einweisung');
+        $this->entityManager->flush();
+    }
+
+
+    public function outputHTMLCheckout()
+    {
+        #var_dump($data->getBirthday());die;
+
+        header('Pragma: public');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Cache-Control: private', false);
+        header('Content-Type: application/pdf');
+        header('content-Disposition:attachment;filename="downloaded.pdf"');
+
+        $pdf = new \TCPDF( 'P', 'mm', 'A4' );
+        $pdf->SetMargins(22, 20, 15, true);
+        $pdf->AddPage ( 'P' );
+        $bMargin = $pdf->getBreakMargin();
+        $auto_page_break = $pdf->getAutoPageBreak();
+        $pdf->SetAutoPageBreak(false, 0);
+        $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
+        $pdf->setPageMark();
+
+        $html='<header>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+<td width="20%"><img src="https://nuvisan.de/themes/nuvisan/img/nuvisan-logo-static.png" style="width: 200px" height="auto"> </td>
+<td width="60%" style="padding-left: 10px;"><p><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUVISAN Study Code: N-A-PH1-19-020<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sponsor Study Code: RD005065</small></p></td>
+<td width="20%" style="text-align: right"><p><small>Page 1</small></p></td>
+</tr>
+</table>
+<p>&nbsp;</p>
+<table cellspacing="0" cellpadding="8" border="0" width="100%" style="border: 1px solid #000000;">
+<tr>
+<td colspan="3" style="text-align: center; background-color: lightskyblue; border-bottom: 1px solid #000000"><h4>Demographic Data</h4></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Slot date:</strong></p></td>
+<td colspan="2" width="70%"><p>00 / 00 / 0000 <small>(DD/MMM/YYYY)</small></p></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Slot Time:</strong></p></td>
+<td colspan="2" width="70%"><p>00 : 00 <small>(hh:min)</small></p></td>
+</tr>
+<tr>
+<td colspan="3"></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Birth date:</strong></p></td>
+<td colspan="2" width="70%"><p>00 / 00 / 0000 <small>(DD/MMM/YYYY)</small></p></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Age:</strong></p></td>
+<td colspan="2" width="70%"><p>## <small>(if age over 18 - exclusion from study)</small></p></td>
+</tr>
+<tr>
+<td width="70%"><p>Personal data were checked by verification of the identity card during check in-as well as a double registration to avoid multiple participations:</p></td>
+<td width="5%"><p><input type="checkbox" name="agree" value="1" /></p></td>
+<td width="25%"><p>Yes</p></td>
+</tr>
+<tr>
+<td width="70%"><p>Voluntary declaration was signed by employee and works council:<br><small>Only for NUVISAN  GmbH employees (needs to be completed if subject is a NUVISAN GmbH employee)</small></p></td>
+<td width="5%"><p><input type="checkbox" name="agree" value="1" /></p></td>
+<td width="25%"><p>Yes</p></td>
+</tr>
+</table>
+<p>&nbsp;</p>
+<table cellspacing="0" cellpadding="8" border="0" width="100%" style="border: 1px solid #000000;">
+<tr>
+<td colspan="3" style="text-align: center; background-color: lightskyblue; border-bottom: 1px solid #000000"><h4>Subject Informed Consent and Blood Donation</h4></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Slot date:</strong></p></td>
+<td colspan="2" width="70%"><p>00 / 00 / 0000 <small>(DD/MMM/YYYY)</small></p></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Slot Time:</strong></p></td>
+<td colspan="2" width="70%"><p>00 : 00 <small>(hh:min)</small></p></td>
+</tr>
+<tr>
+<td colspan="3"></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Birth date:</strong></p></td>
+<td colspan="2" width="70%"><p>00 / 00 / 0000 <small>(DD/MMM/YYYY)</small></p></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Age:</strong></p></td>
+<td colspan="2" width="70%"><p>## <small>(if age over 18 - exclusion from study)</small></p></td>
+</tr>
+</table>
+
+</header>';
+
+        $pdf->WriteHTML($html);
+        $pdf->Output ();
+    }
+
+    public function setCheckoutStatus($id)
+    {
+        $study = $this->entityManager->getRepository('SiowebDummyBundle:Study')->find($id);
+        $study->setStatus('Blut abgenommen/Auszahlung');
+        $this->entityManager->flush();
     }
 }

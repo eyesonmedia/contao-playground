@@ -29,6 +29,12 @@ $GLOBALS['TL_DCA']['eonm_intern']['list']['operations']['storno'] = [
     'button_callback' => ['eonm_intern_cancel_backend', 'cancelButtonRegistration']
 ];
 
+$GLOBALS['TL_DCA']['eonm_intern']['list']['operations']['study'] = [
+    'label'           => &$GLOBALS['TL_LANG']['eonm_intern']['study'],
+    'icon'            => 'workflow-start.svg',
+    'button_callback' => ['eonm_intern_cancel_backend', 'startButtonStudy']
+];
+
 $GLOBALS['TL_DCA']['eonm_intern'] = array(
     // Config
     'config' => array
@@ -95,7 +101,14 @@ $GLOBALS['TL_DCA']['eonm_intern'] = array(
                 'href'                => 'act=show',
                 'icon'                => 'show.svg',
                 'button_callback' => ['eonm_intern_cancel_backend', 'cancelButtonRegistration']
-            )
+            ),
+            'study' => array
+            (
+                'label'               => &$GLOBALS['TL_LANG']['eonm_intern']['study'],
+                'href'                => 'act=show',
+                'icon'                => 'show.svg',
+                'button_callback' => ['eonm_registration_cancel_backend', 'startButtonStudy']
+            ),
         )
     ),
 
@@ -355,6 +368,33 @@ class  eonm_intern_cancel_backend extends Backend
      * @return string
      */
     public function cancelButtonRegistration($arrRow)
+    {
+
+        #var_dump();die;
+        //$checkWorkflow = \System::getContainer()->get('freshframes_workflow.datacontainer.workflow')->checkWorkflowExisting($arrRow['id']);
+
+        //die('ddd');
+        #var_dump($arrRow['id']);
+        // check if worklow is exist
+        /*
+
+        if($checkWorkflow['workflow'] == NULL) {
+            return '<a href="' . $this->addToUrl('do=FreshframesWorkflowManageWorkflow&act=create&page_id='.$checkWorkflow['page']->getId(), true,
+                    ['do']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . ' style="display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: green">Workflow starten</a>';
+            #return '<a href="' . $this->addToUrl('do=themes&table=tl_layout&act=edit&id=' . $arrPage['layout'], true,
+            #        ['do']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label) . '</a>';
+        } else {
+            return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: orange">Workflow gestartet</span>';
+        }*/
+        if($arrRow['status'] == 'aktiv') {
+            return '<a onclick="if(!confirm(\'Soll diese Anmeldung storniert werden?\'))return false;Backend.getScrollOffset()" href="' . $this->addToUrl('do=NuvisanManageIntern&key=storno&time_id='.$arrRow['timeid'].'&registration_id='.$arrRow['id'], true, ['do']) . '" title="stornieren" style="display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: green">stornieren</a>';
+        } else {
+            return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: #c42302">'.$arrRow['status'].'</span>';
+        }
+
+    }
+
+    public function startButtonStudy($arrRow)
     {
 
         #var_dump();die;

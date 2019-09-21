@@ -23,20 +23,22 @@ use Contao\DataContainer;
  * Hinweis: Hier wird kein SQL notiert, SQL wird in der
  * Entity /src/Entity/Dummy.php hinterlegt!
  */
-$GLOBALS['TL_DCA']['eonm_registration']['list']['operations']['storno'] = [
-    'label'           => &$GLOBALS['TL_LANG']['eonm_registration']['storno'],
-    'icon'            => 'workflow-start.svg',
-    'button_callback' => ['eonm_registration_cancel_backend', 'cancelButtonRegistration']
+
+
+$GLOBALS['TL_DCA']['eonm_study']['list']['operations']['checkin'] = [
+    'label'           => &$GLOBALS['TL_LANG']['eonm_study']['checkin'],
+    //'icon'            => 'workflow-start.svg',
+    'button_callback' => ['eonm_study_cancel_backend', 'checkinButtonStudy']
 ];
-
-$GLOBALS['TL_DCA']['eonm_registration']['list']['operations']['study'] = [
-    'label'           => &$GLOBALS['TL_LANG']['eonm_registration']['study'],
-    'icon'            => 'workflow-start.svg',
-    'button_callback' => ['eonm_registration_cancel_backend', 'startButtonStudy']
+/*
+$GLOBALS['TL_DCA']['eonm_study']['list']['operations']['checkout'] = [
+    'label'           => &$GLOBALS['TL_LANG']['eonm_study']['checkout'],
+    //'icon'            => 'workflow-start.svg',
+    'button_callback' => ['eonm_study_cancel_backend', 'checkoutButtonStudy']
 ];
+*/
 
-
-$GLOBALS['TL_DCA']['eonm_registration'] = array(
+$GLOBALS['TL_DCA']['eonm_study'] = array(
     // Config
     'config' => array
     (
@@ -55,7 +57,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
     (
         'label' => array
         (
-            'fields' => array('tstamp', 'title','firstname', 'lastname', 'birthday', 'registerdate', 'study', 'status'),
+            'fields' => array('cdate', 'title','firstname', 'lastname', 'birthday', 'email', 'registerdate', 'registertime', 'status'),
             'showColumns' => true,
             'format' => '%s',
             //'label_callback' => array('tl_betasearch_search_backend', 'searchLabelCallback')
@@ -72,6 +74,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
         ),
         'global_operations' => array
         (
+            /*
             'export' => array
             (
                 'label'               => 'Registrationen als CSV exportierten',
@@ -81,6 +84,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
                 #'attributes'          => 'onclick="Backend.getScrollOffset()" accesskey="e"'
                 #'showOnSelect'        => true
             ),
+            */
         ),
         'operations' => array
         (
@@ -92,24 +96,24 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
             ),*/
             'show' => array
             (
-                'label'               => &$GLOBALS['TL_LANG']['eonm_registration']['show'],
+                'label'               => &$GLOBALS['TL_LANG']['eonm_study']['show'],
                 'href'                => 'act=show',
                 'icon'                => 'show.svg'
             ),
-            'storo' => array
+            'checkin' => array
             (
-                'label'               => &$GLOBALS['TL_LANG']['eonm_registration']['storno'],
+                'label'               => &$GLOBALS['TL_LANG']['eonm_study']['checkin'],
                 'href'                => 'act=show',
                 'icon'                => 'show.svg',
-                'button_callback' => ['eonm_registration_cancel_backend', 'cancelButtonRegistration']
+                'button_callback' => ['eonm_study_cancel_backend', 'checkinButtonStudy']
             ),
-            'study' => array
+            /*'checkout' => array
             (
-                'label'               => &$GLOBALS['TL_LANG']['eonm_registration']['study'],
+                'label'               => &$GLOBALS['TL_LANG']['eonm_study']['checkout'],
                 'href'                => 'act=show',
                 'icon'                => 'show.svg',
-                'button_callback' => ['eonm_registration_cancel_backend', 'startButtonStudy']
-            ),
+                'button_callback' => ['eonm_study_cancel_backend', 'checkoutButtonStudy']
+            ),*/
         )
     ),
 
@@ -135,18 +139,21 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
         ],
         'cdate' => [
             'sql' => "int(10) unsigned NOT NULL",
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['cdate'],
+            'label' => &$GLOBALS['TL_LANG']['eonm_study']['cdate'],
         ],
         'tstamp' => [
             'sql' => "int(10) unsigned NOT NULL",
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['tstamp'],
+            'label' => &$GLOBALS['TL_LANG']['eonm_study']['tstamp'],
         ],
         'timeid' => [
             'sql' => "int(11) unsigned NOT NULL"
         ],
+        'studyid' => [
+            'sql' => "int(11) unsigned NOT NULL"
+        ],
         'title' => array
         (
-            'label'                   => &$GLOBALS['TL_LANG']['eonm_registration']['title'],
+            'label'                   => &$GLOBALS['TL_LANG']['eonm_study']['title'],
             'exclude'                 => true,
             'filter'                  => true,
             'sorting'                 => true,
@@ -159,7 +166,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'registergroup' => [
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['registergroup'],
+            'label' => &$GLOBALS['TL_LANG']['eonm_study']['registergroup'],
             'exclude' => true,
             'search' => true,
             'sorting' => true,
@@ -169,7 +176,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
             'sql' => "varchar(510) NOT NULL default ''"
         ],
         'firstname' => [
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['firstname'],
+            'label' => &$GLOBALS['TL_LANG']['eonm_study']['firstname'],
             'exclude' => true,
             'search' => true,
             'sorting' => true,
@@ -179,7 +186,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
             'sql' => "varchar(510) NOT NULL default ''"
         ],
         'lastname' => [
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['lastname'],
+            'label' => &$GLOBALS['TL_LANG']['eonm_study']['lastname'],
             'exclude' => true,
             'search' => true,
             'sorting' => true,
@@ -189,7 +196,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
             'sql' => "varchar(510) NOT NULL default ''"
         ],
         'email' => [
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['email'],
+            'label' => &$GLOBALS['TL_LANG']['eonm_study']['email'],
             'exclude' => true,
             'search' => true,
             'sorting' => true,
@@ -200,7 +207,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
             'sql' => "varchar(510) NOT NULL default ''"
         ],
         'birthday' => [
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['birthday'],
+            'label' => &$GLOBALS['TL_LANG']['eonm_study']['birthday'],
             'exclude' => true,
             'search' => true,
             'sorting' => true,
@@ -210,7 +217,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
             'sql' => "varchar(510) NOT NULL default ''"
         ],
         'phone' => [
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['phone'],
+            'label' => &$GLOBALS['TL_LANG']['eonm_study']['phone'],
             'exclude' => true,
             'search' => true,
             'sorting' => true,
@@ -220,7 +227,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
             'sql' => "varchar(510) NOT NULL default ''"
         ],
         'street' => [
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['street'],
+            'label' => &$GLOBALS['TL_LANG']['eonm_study']['street'],
             'exclude' => true,
             'search' => true,
             'sorting' => true,
@@ -230,7 +237,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
             'sql' => "varchar(510) NOT NULL default ''"
         ],
         'zip' => [
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['zip'],
+            'label' => &$GLOBALS['TL_LANG']['eonm_study']['zip'],
             'exclude' => true,
             'search' => true,
             'sorting' => true,
@@ -240,7 +247,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
             'sql' => "varchar(510) NOT NULL default ''"
         ],
         'city' => [
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['city'],
+            'label' => &$GLOBALS['TL_LANG']['eonm_study']['city'],
             'exclude' => true,
             'search' => true,
             'sorting' => true,
@@ -250,7 +257,17 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
             'sql' => "varchar(510) NOT NULL default ''"
         ],
         'registerdate' => [
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['registerdate'],
+            'label' => &$GLOBALS['TL_LANG']['eonm_study']['registerdate'],
+            'exclude' => true,
+            'search' => true,
+            'sorting' => true,
+            'flag' => 1,
+            'inputType' => 'text',
+            'eval' => ['mandatory' => true, 'maxlength' => 510],
+            'sql' => "varchar(510) NOT NULL default ''"
+        ],
+        'registertime' => [
+            'label' => &$GLOBALS['TL_LANG']['eonm_study']['registertime'],
             'exclude' => true,
             'search' => true,
             'sorting' => true,
@@ -260,27 +277,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
             'sql' => "varchar(510) NOT NULL default ''"
         ],
         'study' => [
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['study'],
-            'exclude' => true,
-            'search' => true,
-            'sorting' => true,
-            'flag' => 1,
-            'inputType' => 'text',
-            'eval' => ['mandatory' => true, 'maxlength' => 510],
-            'sql' => "varchar(510) NOT NULL default ''"
-        ],
-        'population' => [
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['population'],
-            'exclude' => true,
-            'search' => true,
-            'sorting' => true,
-            'flag' => 1,
-            'inputType' => 'text',
-            'eval' => ['mandatory' => true, 'maxlength' => 510],
-            'sql' => "varchar(510) NOT NULL default ''"
-        ],
-        'smoker' => [
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['smoker'],
+            'label' => &$GLOBALS['TL_LANG']['eonm_study']['study'],
             'exclude' => true,
             'search' => true,
             'sorting' => true,
@@ -291,7 +288,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
         ],
         'status' => array
         (
-            'label'                   => &$GLOBALS['TL_LANG']['eonm_registration']['status'],
+            'label'                   => &$GLOBALS['TL_LANG']['eonm_study']['status'],
             'exclude'                 => true,
             'filter'                  => true,
             'sorting'                 => true,
@@ -302,27 +299,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
             //'options_callback'      => array('CLASS', 'METHOD'),
             'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
             'sql'                     => "varchar(255) NOT NULL default ''"
-        ),
-        'patientdata' => [
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['patientdata'],
-            'exclude' => true,
-            'search' => true,
-            'sorting' => true,
-            'flag' => 1,
-            'inputType' => 'text',
-            'eval' => ['mandatory' => true, 'maxlength' => 510],
-            'sql' => "varchar(510) NOT NULL default ''"
-        ],
-        'femaledata' => [
-            'label' => &$GLOBALS['TL_LANG']['eonm_registration']['femaledata'],
-            'exclude' => true,
-            'search' => true,
-            'sorting' => true,
-            'flag' => 1,
-            'inputType' => 'text',
-            'eval' => ['mandatory' => true, 'maxlength' => 510],
-            'sql' => "varchar(510) NOT NULL default ''"
-        ],
+        )
     )
 );
 
@@ -331,7 +308,7 @@ $GLOBALS['TL_DCA']['eonm_registration'] = array(
  * Class tl_article_workflow_backend
  *
  */
-class  eonm_registration_cancel_backend extends Backend
+class  eonm_study_cancel_backend extends Backend
 {
     /**
      * All pages
@@ -353,36 +330,18 @@ class  eonm_registration_cancel_backend extends Backend
      *
      * @return string
      */
-    public function cancelButtonRegistration($arrRow)
+    public function checkinButtonStudy($arrRow)
     {
-
-        #var_dump();die;
-        //$checkWorkflow = \System::getContainer()->get('freshframes_workflow.datacontainer.workflow')->checkWorkflowExisting($arrRow['id']);
-
-        //die('ddd');
-        #var_dump($arrRow['id']);
-        // check if worklow is exist
-        /*
-
-        if($checkWorkflow['workflow'] == NULL) {
-            return '<a href="' . $this->addToUrl('do=FreshframesWorkflowManageWorkflow&act=create&page_id='.$checkWorkflow['page']->getId(), true,
-                    ['do']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . ' style="display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: green">Workflow starten</a>';
-            #return '<a href="' . $this->addToUrl('do=themes&table=tl_layout&act=edit&id=' . $arrPage['layout'], true,
-            #        ['do']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label) . '</a>';
-        } else {
-            return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: orange">Workflow gestartet</span>';
-        }*/
-        if($arrRow['status'] == 'aktiv') {
-            return '<a onclick="if(!confirm(\'Soll diese Anmeldung storniert werden?\'))return false;Backend.getScrollOffset()" href="' . $this->addToUrl('do=NuvisanManageRegistration&key=storno&time_id=' . $arrRow['timeid'] . '&registration_id=' . $arrRow['id'], true, ['do']) . '" title="stornieren" style="display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: burlywood">stornieren</a>';
-        } elseif($arrRow['status'] == 'checked-in') {
-            return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: green;">Checkin/Einweisung</span>';
+        if($arrRow['status'] == 'offen') {
+            return '<a onclick="if(!confirm(\'Soll diese Anmeldung als Checkin/Einweisung hinterlegt werden?\'))return false;Backend.getScrollOffset()" href="' . $this->addToUrl('do=NuvisanManageStudy&key=checkin&study_id='.$arrRow['id'], true, ['do']) . '" title="Checkin/Einweisung" style="display: inline-block; padding: 5px 8px; font-weight:bold; color: white; background: green">Checkin/Einweisung</a>';
+        } elseif ($arrRow['status'] == 'Checkin/Einweisung') {
+            return '<a onclick="if(!confirm(\'Soll diese Anmeldung als Blut abgenommen/Auszahlung werden?\'))return false;Backend.getScrollOffset()" href="' . $this->addToUrl('do=NuvisanManageStudy&key=checkout&study_id='.$arrRow['id'], true, ['do']) . '" title="stornieren" style="display: inline-block; padding: 5px 8px; font-weight:bold; color: white; background: green">Blut abgenommen/Auszahlung</a>';
         } else {
             return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: #c42302">storniert</span>';
         }
-
     }
 
-    public function startButtonStudy($arrRow)
+    public function checkoutButtonStudy($arrRow)
     {
 
         #var_dump();die;
@@ -401,10 +360,12 @@ class  eonm_registration_cancel_backend extends Backend
         } else {
             return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: orange">Workflow gestartet</span>';
         }*/
-        if($arrRow['status'] == 'aktiv') {
-            return '<a onclick="if(!confirm(\'CHECK IN / EINWEISUNG für diese Anmeldung?\'))return false;Backend.getScrollOffset()" href="' . $this->addToUrl('do=NuvisanManageRegistration&key=study&time_id='.$arrRow['timeid'].'&registration_id='.$arrRow['id'], true, ['do']) . '" title="CHECK IN / EINWEISUNG" style="display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: green; margin-left: 5px;">CHECK IN / EINWEISUNG</a>';
+        if($arrRow['status'] == 'offen') {
+            return '<a onclick="if(!confirm(\'Soll diese Anmeldung als Checkin/Einweisung hinterlegt werden?\'))return false;Backend.getScrollOffset()" href="' . $this->addToUrl('do=NuvisanManageStudy&key=checkin&study_id='.$arrRow['id'], true, ['do']) . '" title="Checkin/Einweisung" style="display: inline-block; padding: 5px 8px; font-weight:bold; color: white; background: green">Checkin/Einweisung</a>';
+        } elseif ($arrRow['status'] == 'Checkin/Einweisung') {
+            return '<a onclick="if(!confirm(\'Soll diese Anmeldung als Blut abgenommen/Auszahlung werden?\'))return false;Backend.getScrollOffset()" href="' . $this->addToUrl('do=NuvisanManageStudy&key=checkout&study_id='.$arrRow['id'], true, ['do']) . '" title="Blut abgenommen/Auszahlung" style="display: inline-block; padding: 5px 8px; font-weight:bold; color: white; background: green">Blut abgenommen/Auszahlung</a>';
         } else {
-            return '';
+            return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: #c42302">storniert</span>';
         }
 
     }

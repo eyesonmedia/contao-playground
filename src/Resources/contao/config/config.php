@@ -28,7 +28,7 @@ if(VERSION <= 4.5) {
         'content_dummy' => 'Sioweb\DummyBundle\ContentElement\ContentDummy',
     ));
 */
-
+/*
     array_insert($GLOBALS['BE_MOD']['DummyBundle'], 1 ,[
         'NuvisanManageRegistration' => [
             'tables'      => array('eonm_registration'),
@@ -39,7 +39,7 @@ if(VERSION <= 4.5) {
         ]
     ]);
 
-    array_insert($GLOBALS['BE_MOD']['DummyBundle'], 1 ,[
+    array_insert($GLOBALS['BE_MOD']['DummyBundle'], 2 ,[
         'NuvisanManageIntern' => [
             'tables'      => array('eonm_intern'),
             'table' => ['TableWizard', 'importTable'],
@@ -49,10 +49,53 @@ if(VERSION <= 4.5) {
         ]
     ]);
 
+    array_insert($GLOBALS['BE_MOD']['DummyBundle'], 0 ,[
+        'NuvisanManageStudy' => [
+            'tables'      => array('eonm_registration'),
+            'table' => ['TableWizard', 'importTable'],
+            'list' => ['ListWizard', 'importList'],
+            //'callback'    => 'Sioweb\DummyBundle\ModuleBetasearch',
+            //'export'     => array('DummyBundle', 'exportRegistration')
+        ]
+    ]);
+*/
 }
 
+    array_insert($GLOBALS['BE_MOD'],0, array(
+        'DummyBundle' => array(
+            'NuvisanManageStudy' => array(
+                'tables'      => array('eonm_study'),
+                'table' => ['TableWizard', 'importTable'],
+                'list' => ['ListWizard', 'importList'],
+                //'callback'    => 'Sioweb\DummyBundle\ModuleBetasearch',
+                //'export'     => array('DummyBundle', 'exportRegistration')
+            ),
+            'NuvisanManageRegistration' => array(
+                'tables'      => array('eonm_registration'),
+                'table' => ['TableWizard', 'importTable'],
+                'list' => ['ListWizard', 'importList'],
+                //'callback'    => 'Sioweb\DummyBundle\ModuleBetasearch',
+                'export'     => array('DummyBundle', 'exportRegistration')
+            ),
+            'NuvisanManageIntern' => array(
+                'tables'      => array('eonm_intern'),
+                'table' => ['TableWizard', 'importTable'],
+                'list' => ['ListWizard', 'importList'],
+                //'callback'    => 'Sioweb\DummyBundle\ModuleBetasearch',
+                'export'     => array('DummyBundle', 'exportRegistration')
+            )
+        )
+    ));
+
+
+$GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageStudy']['checkin'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'setCheckin');
+$GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageStudy']['checkout'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'setCheckout');
+
+$GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageRegistration']['study'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'startStudy');
+$GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageIntern']['study'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'startStudyIntern');
 
 $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageRegistration']['storno'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'makeStorno');
 $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageIntern']['storno'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'makeStornoIntern');
+
 $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageRegistration']['export'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'exportRegistration');
 $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageIntern']['export'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'exportInternRegistration');

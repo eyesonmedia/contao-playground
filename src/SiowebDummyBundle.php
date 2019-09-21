@@ -1,6 +1,7 @@
 <?php
 
 namespace Sioweb\DummyBundle;
+
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Sioweb\DummyBundle\DependencyInjection\Extension;
 
@@ -321,4 +322,76 @@ class SiowebDummyBundle extends Bundle
         \Contao\Message::addInfo('<span style="padding: 20px 5px; display: inline-block;">Die Registration wurde storniert!</span>');
         \Contao\Controller::redirect('contao/main.php?do=NuvisanManageIntern');
     }
+
+    public function startStudy(\Contao\DC_Table $dc)
+    {
+
+        /*
+         * set variables
+         */
+        $timeid = \Input::get('time_id');
+        $registrationid = \Input::get('registration_id');
+
+        /*
+         * get registration data
+         */
+
+        $registrationdata =\Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->getRegistrationById($registrationid);
+        /*
+         * get time data
+         */
+        $timedata = \Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->findAllTimeById($timeid);
+        $dateobj = \Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->getDateById($timedata->getDateid());
+        $date = $dateobj->getDate();
+        $date = $date->format('d.m.Y');
+
+
+        /*
+         * update registration status to checkin first
+         */
+        \Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->setRegistrationCheckin($registrationid);
+
+        /*
+         * copy registration to study and generate study
+         */
+        \Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->generateStudy($registrationid, $date, $timedata->getTime());
+
+        /*
+         * add messages and redirect to manage study view in backend
+         */
+        \Contao\Message::addInfo('<span style="padding: 20px 5px; display: inline-block;">Studie für Proband <strong style="border-bottom: 2px solid #006494">'. $registrationdata->getFirstname() . ' ' . $registrationdata->getLastname() .'</strong> wurde erfolgreich hinterlegt - Status offen!</span>');
+        \Contao\Controller::redirect('contao/main.php?do=NuvisanManageStudy');
+
+    }
+
+    public function startStudyIntern(\Contao\DC_Table $dc)
+    {
+        var_dump($_GET);die;
+    }
+
+    /*
+     * start checkin and download the html file for printing
+     */
+    public function setCheckin(\Contao\DC_Table $dc)
+    {
+        $studydata= \System::getContainer()->get('sioweb_dummybundle.service.search')->getStudyById($_GET['study_id']);
+        \System::getContainer()->get('sioweb_dummybundle.service.search')->outputHTMLCheckin($studydata);
+        \System::getContainer()->get('sioweb_dummybundle.service.search')->setCheckinStatus($studydata->getId());
+        \Contao\Message::addInfo('<span style="padding: 20px 5px; display: inline-block;"><strong style="border-bottom: 2px solid #006494">Status Checkin / Einweisung</strong> für Proband <strong style="border-bottom: 2px solid #006494">'. $studydata->getFirstname() . ' ' . $studydata->getLastname() .'</strong> wurde erfolgreich hinterlegt!</span>');
+
+
+    }
+
+    /*
+     * start checkin and download the html file for printing
+     */
+    public function setCheckout(\Contao\DC_Table $dc)
+    {
+        //$studydata= \System::getContainer()->get('sioweb_dummybundle.service.search')->getStudyById($_GET['study_id']);
+        \System::getContainer()->get('sioweb_dummybundle.service.search')->outputHTMLCheckout();
+        //\System::getContainer()->get('sioweb_dummybundle.service.search')->setCheckoutStatus($studydata->getId());
+        //\Contao\Message::addInfo('<span style="padding: 20px 5px; display: inline-block;"><strong style="border-bottom: 2px solid #006494">Blut abgenommen/Auszahlung</strong> für Proband <strong style="border-bottom: 2px solid #006494">'. $studydata->getFirstname() . ' ' . $studydata->getLastname() .'</strong> wurde erfolgreich hinterlegt!</span>');
+
+    }
+
 }

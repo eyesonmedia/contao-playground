@@ -337,7 +337,7 @@ class  eonm_study_cancel_backend extends Backend
         } elseif ($arrRow['status'] == 'Checkin/Einweisung') {
             return '<a onclick="if(!confirm(\'Soll diese Anmeldung als Blut abgenommen/Auszahlung werden?\'))return false;Backend.getScrollOffset()" href="' . $this->addToUrl('do=NuvisanManageStudy&key=checkout&study_id='.$arrRow['id'], true, ['do']) . '" title="stornieren" style="display: inline-block; padding: 5px 8px; font-weight:bold; color: white; background: green">Blut abgenommen/Auszahlung</a>';
         } else {
-            return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: #c42302">storniert</span>';
+            return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: #222;">Blut abgenommen/Auszahlung</span>';
         }
     }
 

@@ -745,7 +745,7 @@ $html='<header>
         $birthdate = new \DateTime($data->getBirthday());
         $slotdate = new \DateTime($data->getRegisterdate().' '.$data->getRegistertime());
         $age = date_diff(date_create($data->getBirthday()), date_create('today'))->y;
-        
+
         header('Pragma: public');
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');

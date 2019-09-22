@@ -402,7 +402,7 @@ class  eonm_registration_cancel_backend extends Backend
             return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: orange">Workflow gestartet</span>';
         }*/
         if($arrRow['status'] == 'aktiv') {
-            return '<a onclick="if(!confirm(\'CHECK IN / EINWEISUNG für diese Anmeldung?\'))return false;Backend.getScrollOffset()" href="' . $this->addToUrl('do=NuvisanManageRegistration&key=study&time_id='.$arrRow['timeid'].'&registration_id='.$arrRow['id'], true, ['do']) . '" title="CHECK IN / EINWEISUNG" style="display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: green; margin-left: 5px;">CHECK IN / EINWEISUNG</a>';
+            return '<a onclick="if(!confirm(\'Datenübernahme/Checkin für diese Anmeldung?\'))return false;Backend.getScrollOffset()" href="' . $this->addToUrl('do=NuvisanManageRegistration&key=study&time_id='.$arrRow['timeid'].'&registration_id='.$arrRow['id'], true, ['do']) . '" title="Datenübernahme/Checkin" style="display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: green; margin-left: 5px;">Datenübernahme/Checkin</a>';
         } else {
             return '';
         }

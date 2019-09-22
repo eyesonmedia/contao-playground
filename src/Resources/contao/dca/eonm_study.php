@@ -333,7 +333,7 @@ class  eonm_study_cancel_backend extends Backend
     public function checkinButtonStudy($arrRow)
     {
         if($arrRow['status'] == 'offen') {
-            return '<a onclick="if(!confirm(\'Soll diese Anmeldung als Checkin/Einweisung hinterlegt werden?\'))return false;Backend.getScrollOffset()" href="' . $this->addToUrl('do=NuvisanManageStudy&key=checkin&study_id='.$arrRow['id'], true, ['do']) . '" title="Checkin/Einweisung" style="display: inline-block; padding: 5px 8px; font-weight:bold; color: white; background: green">Checkin/Einweisung</a>';
+            return '<a target="_blank" onclick="if(!confirm(\'Soll diese Anmeldung als Checkin/Einweisung hinterlegt werden?\'))return false;location.reload();" href="' . $this->addToUrl('do=NuvisanManageStudy&key=checkin&study_id='.$arrRow['id'], true, ['do']) . '" title="Checkin/Einweisung" style="display: inline-block; padding: 5px 8px; font-weight:bold; color: white; background: green">Checkin/Einweisung</a>';
         } elseif ($arrRow['status'] == 'Checkin/Einweisung') {
             return '<a onclick="if(!confirm(\'Soll diese Anmeldung als Blut abgenommen/Auszahlung werden?\'))return false;Backend.getScrollOffset()" href="' . $this->addToUrl('do=NuvisanManageStudy&key=checkout&study_id='.$arrRow['id'], true, ['do']) . '" title="stornieren" style="display: inline-block; padding: 5px 8px; font-weight:bold; color: white; background: green">Blut abgenommen/Auszahlung</a>';
         } else {

@@ -616,6 +616,10 @@ class Search
     {
         #var_dump($data->getBirthday());die;
 
+        $birthdate = new \DateTime($data->getBirthday());
+        $slotdate = new \DateTime($data->getRegisterdate().' '.$data->getRegistertime());
+        $age = date_diff(date_create($data->getBirthday()), date_create('today'))->y;
+
         header('Pragma: public');
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
@@ -624,13 +628,15 @@ class Search
         header('content-Disposition:attachment;filename="downloaded.pdf"');
 
         $pdf = new \TCPDF( 'P', 'mm', 'A4' );
-        $pdf->SetMargins(22, 20, 15, true);
+        $pdf->SetMargins(22, 15, 8, true);
         $pdf->AddPage ( 'P' );
+
         $bMargin = $pdf->getBreakMargin();
         $auto_page_break = $pdf->getAutoPageBreak();
         $pdf->SetAutoPageBreak(false, 0);
         $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
         $pdf->setPageMark();
+        $pdf->SetFontSize(10);
 
 $html='<header>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -726,8 +732,162 @@ $html='<header>
 </table>
 </section>
 ';
+        $pdf->WriteHTML($html);
+
+        $pdf->AddPage ( 'P' );
+        $bMargin = $pdf->getBreakMargin();
+        $auto_page_break = $pdf->getAutoPageBreak();
+        $pdf->SetAutoPageBreak(false, 0);
+        $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
+        $pdf->setPageMark();
+        $pdf->SetFontSize(10);
+
+
+        $html='<header>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+<td width="20%"><img src="https://nuvisan.de/themes/nuvisan/img/nuvisan-logo-static.png" style="width: 200px" height="auto"> </td>
+<td width="60%" style="padding-left: 10px;"><p><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUVISAN Study Code: N-A-PH1-19-020<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sponsor Study Code: RD005065</small></p></td>
+<td width="20%" style="text-align: right"><p><small>Page 1</small></p></td>
+</tr>
+</table>
+<p>&nbsp;</p>
+<table cellspacing="0" cellpadding="8" border="0" width="100%" style="border: 1px solid #000000;">
+<tr>
+<td colspan="3" style="text-align: center; background-color: lightskyblue; border-bottom: 1px solid #000000"><h4>Demographic Data</h4></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Slot date:</strong></p></td>
+<td colspan="2" width="70%"><p>'.$slotdate->format('d / m / Y').' <small>(DD/MMM/YYYY)</small></p></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Slot Time:</strong></p></td>
+<td colspan="2" width="70%"><p>'.$slotdate->format('H : i').' <small>(hh:min)</small></p></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Birth date:</strong></p></td>
+<td colspan="2" width="70%"><p>'.$birthdate->format('d / m / Y').' <small>(DD/MMM/YYYY)</small></p></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Age:</strong></p></td>
+<td colspan="2" width="70%"><p>'.$age.' <small>(if age over 18 - exclusion from study)</small></p></td>
+</tr>
+<tr>
+<td width="70%"><p>Personal data were checked by verification of the identity card during check in-as well as a double registration to avoid multiple participations:</p></td>
+<td width="5%"><p><input type="checkbox" name="agree" value="1" /></p></td>
+<td width="25%"><p>Yes</p></td>
+</tr>
+<tr>
+<td width="70%"><p>Voluntary declaration was signed by employee and works council:<br><small>Only for NUVISAN  GmbH employees (needs to be completed if subject is a NUVISAN GmbH employee)</small></p></td>
+<td width="5%"><p><input type="checkbox" name="agree" value="1" /></p></td>
+<td width="25%"><p>Yes</p></td>
+</tr>
+<tr>
+<td width="20%"></td>
+<td width="50%" style="text-align: right;"><p>Initials: </p></td>
+<td width="30%"><p>___________________</p></td>
+</tr>
+</table>
+<p>&nbsp;</p>
+<table cellspacing="0" cellpadding="8" border="0" width="100%" style="border: 1px solid #000000;">
+<tr>
+<td colspan="5" style="text-align: center; background-color: lightskyblue; border-bottom: 1px solid #000000"><h4>Subject Informed Consent and Blood Donation</h4></td>
+</tr>
+<tr>
+<td width="35%"><p>Informed consent was signed</p></td>
+<td width="5%"><p><input type="checkbox" name="check" value="1" /></p></td>
+<td width="10%"><p>Yes</p></td>
+<td width="5%"><p><input type="checkbox" name="check" value="0" /></p></td>
+<td width="35%"><p>No</p></td>
+</tr>
+<tr>
+<td colspan="5"><small><strong>Subjects must have signed the informed consent form prior to the blood donation (incl. date and time point)!</strong></small></td>
+</tr>
+<tr>
+<td width="30%"><p>Print date:</p></td>
+<td colspan="4" width="70%"><p>'.date('d / m / Y').' <small>(DD/MMM/YYYY)</small></p></td>
+</tr>
+<tr>
+<td colspan="5"><p>Required 3 Lithium Heparin plasma samples taken and filled sufficiently(start time):</p></td>
+</tr>
+<tr>
+<td width="2%"></td>
+<td colspan="4"><p>|___| |___| : |___| |___| <small>(hh:min)</small></p></td>
+</tr>
+<tr>
+<td width="25%"></td>
+<td width="50%"><table cellpadding="26" cellspacing="0" style="border: 1px solid #6c757d; background-color: #CCCCCC; "><tr><td style="text-align: center"><p><small>Please insert label</small></p></td></tr></table></td>
+<td width="25%"></td>
+</tr>
+<tr>
+<td width="76%"><p>Subject was asked prior to leaving the study center regarding his/her wellbeing:</p></td>
+<td width="5%"><p><input type="checkbox" name="check1" value="1" /></p></td>
+<td width="7%"><p>Yes</p></td>
+<td width="5%"><p><input type="checkbox" name="check1" value="0" /></p></td>
+<td width="7%"><p>No</p></td>
+</tr>
+<tr>
+<td width="36%"><p>Comments (only if ‘yes’ was ticked): </p></td>
+<td width="64%" colspan="4"><p><small>___________________________________________________________________________</small></p></td>
+</tr>
+<tr>
+<td width="36%"></td>
+<td width="64%" colspan="4"><p><small>___________________________________________________________________________</small></p></td>
+</tr>
+<tr>
+<td width="20%" colspan="2"></td>
+<td width="50%" style="text-align: right;"><p>Initials: </p></td>
+<td width="30%"><p>___________________</p></td>
+</tr>
+</table>
+</header>';
+        $pdf->WriteHTML($html);
+
+        $pdf->AddPage ( 'P' );
+
+
+        $html='<header>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+<td width="20%"><img src="https://nuvisan.de/themes/nuvisan/img/nuvisan-logo-static.png" style="width: 200px" height="auto"> </td>
+<td width="60%" style="padding-left: 10px;"><p><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUVISAN Study Code: N-A-PH1-19-020<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sponsor Study Code: RD005065</small></p></td>
+<td width="20%" style="text-align: right"><p><small>Page 2</small></p></td>
+</tr>
+</table>
+<p>&nbsp;</p>
+<table cellspacing="0" cellpadding="8" border="0" width="100%" style="border: 1px solid #000000;">
+<tr>
+<td colspan="5" style="text-align: center; background-color: lightskyblue; border-bottom: 1px solid #000000"><h4>KASSENBELEG</h4></td>
+</tr>
+<tr>
+<td width="25%"></td>
+<td width="50%" colspan="3"><table cellpadding="26" cellspacing="0" style="border: 1px solid #6c757d; background-color: #CCCCCC; "><tr><td style="text-align: center"><p><small>Please insert label</small></p></td></tr></table></td>
+<td width="25%"></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Vorname:</strong></p></td>
+<td colspan="4" width="70%"><p>'.$data->getFirstname().'</p></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Nachname:</strong></p></td>
+<td colspan="4" width="70%"><p>'.$data->getLastname().'</p></td>
+</tr>
+<tr>
+<td colspan="5"><p>Ich habe eine Aufwandsentschädigung von 60 Euro erhalten.<br>Ich wurde darüber informiert, dass diese Aufwandsentschädigung steuerpflichtig ist.<br>Die Einsichtnahme in alle Unterlagen kann in begründeten Fällen durch Dritte erfolgen, z.B. Behörden und Auditoren. </p></td>
+</tr>
+<tr>
+<td width="30%"><p>Datum:</p></td>
+<td colspan="4" width="70%"><p>'.date('d / m / Y').'</p></td>
+</tr>
+<tr>
+<td width="30%"><p>Unterschrift:</p></td>
+<td colspan="4" width="70%"><p>________________________________________</p></td>
+</tr>
+</table>
+</header>';
 
         $pdf->WriteHTML($html);
+
         $pdf->Output ();
     }
 
@@ -754,13 +914,15 @@ $html='<header>
         header('content-Disposition:attachment;filename="downloaded.pdf"');
 
         $pdf = new \TCPDF( 'P', 'mm', 'A4' );
-        $pdf->SetMargins(22, 20, 15, true);
+        $pdf->SetMargins(22, 15, 8, true);
         $pdf->AddPage ( 'P' );
         $bMargin = $pdf->getBreakMargin();
         $auto_page_break = $pdf->getAutoPageBreak();
         $pdf->SetAutoPageBreak(false, 0);
         $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
         $pdf->setPageMark();
+        $pdf->SetFontSize(10);
+
 
         $html='<header>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -784,9 +946,6 @@ $html='<header>
 <td colspan="2" width="70%"><p>'.$slotdate->format('H : i').' <small>(hh:min)</small></p></td>
 </tr>
 <tr>
-<td colspan="3"></td>
-</tr>
-<tr>
 <td width="30%"><p><strong>Birth date:</strong></p></td>
 <td colspan="2" width="70%"><p>'.$birthdate->format('d / m / Y').' <small>(DD/MMM/YYYY)</small></p></td>
 </tr>
@@ -804,33 +963,108 @@ $html='<header>
 <td width="5%"><p><input type="checkbox" name="agree" value="1" /></p></td>
 <td width="25%"><p>Yes</p></td>
 </tr>
+<tr>
+<td width="20%"></td>
+<td width="50%" style="text-align: right;"><p>Initials: </p></td>
+<td width="30%"><p>___________________</p></td>
+</tr>
 </table>
 <p>&nbsp;</p>
 <table cellspacing="0" cellpadding="8" border="0" width="100%" style="border: 1px solid #000000;">
 <tr>
-<td colspan="3" style="text-align: center; background-color: lightskyblue; border-bottom: 1px solid #000000"><h4>Subject Informed Consent and Blood Donation</h4></td>
+<td colspan="5" style="text-align: center; background-color: lightskyblue; border-bottom: 1px solid #000000"><h4>Subject Informed Consent and Blood Donation</h4></td>
 </tr>
 <tr>
-<td width="30%"><p><strong>Slot date:</strong></p></td>
-<td colspan="2" width="70%"><p>00 / 00 / 0000 <small>(DD/MMM/YYYY)</small></p></td>
+<td width="35%"><p>Informed consent was signed</p></td>
+<td width="5%"><p><input type="checkbox" name="check" value="1" /></p></td>
+<td width="10%"><p>Yes</p></td>
+<td width="5%"><p><input type="checkbox" name="check" value="0" /></p></td>
+<td width="35%"><p>No</p></td>
 </tr>
 <tr>
-<td width="30%"><p><strong>Slot Time:</strong></p></td>
-<td colspan="2" width="70%"><p>00 : 00 <small>(hh:min)</small></p></td>
+<td colspan="5"><small><strong>Subjects must have signed the informed consent form prior to the blood donation (incl. date and time point)!</strong></small></td>
 </tr>
 <tr>
-<td colspan="3"></td>
+<td width="30%"><p>Print date:</p></td>
+<td colspan="4" width="70%"><p>'.date('d / m / Y').' <small>(DD/MMM/YYYY)</small></p></td>
 </tr>
 <tr>
-<td width="30%"><p><strong>Birth date:</strong></p></td>
-<td colspan="2" width="70%"><p>00 / 00 / 0000 <small>(DD/MMM/YYYY)</small></p></td>
+<td colspan="5"><p>Required 3 Lithium Heparin plasma samples taken and filled sufficiently(start time):</p></td>
 </tr>
 <tr>
-<td width="30%"><p><strong>Age:</strong></p></td>
-<td colspan="2" width="70%"><p>## <small>(if age over 18 - exclusion from study)</small></p></td>
+<td width="2%"></td>
+<td colspan="4"><p>|___| |___| : |___| |___| <small>(hh:min)</small></p></td>
+</tr>
+<tr>
+<td width="25%"></td>
+<td width="50%"><table cellpadding="26" cellspacing="0" style="border: 1px solid #6c757d; background-color: #CCCCCC; "><tr><td style="text-align: center"><p><small>Please insert label</small></p></td></tr></table></td>
+<td width="25%"></td>
+</tr>
+<tr>
+<td width="76%"><p>Subject was asked prior to leaving the study center regarding his/her wellbeing:</p></td>
+<td width="5%"><p><input type="checkbox" name="check1" value="1" /></p></td>
+<td width="7%"><p>Yes</p></td>
+<td width="5%"><p><input type="checkbox" name="check1" value="0" /></p></td>
+<td width="7%"><p>No</p></td>
+</tr>
+<tr>
+<td width="36%"><p>Comments (only if ‘yes’ was ticked): </p></td>
+<td width="64%" colspan="4"><p><small>___________________________________________________________________________</small></p></td>
+</tr>
+<tr>
+<td width="36%"></td>
+<td width="64%" colspan="4"><p><small>___________________________________________________________________________</small></p></td>
+</tr>
+<tr>
+<td width="20%" colspan="2"></td>
+<td width="50%" style="text-align: right;"><p>Initials: </p></td>
+<td width="30%"><p>___________________</p></td>
 </tr>
 </table>
+</header>';
+        $pdf->WriteHTML($html);
 
+        $pdf->AddPage ( 'P' );
+
+
+        $html='<header>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+<td width="20%"><img src="https://nuvisan.de/themes/nuvisan/img/nuvisan-logo-static.png" style="width: 200px" height="auto"> </td>
+<td width="60%" style="padding-left: 10px;"><p><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUVISAN Study Code: N-A-PH1-19-020<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sponsor Study Code: RD005065</small></p></td>
+<td width="20%" style="text-align: right"><p><small>Page 2</small></p></td>
+</tr>
+</table>
+<p>&nbsp;</p>
+<table cellspacing="0" cellpadding="8" border="0" width="100%" style="border: 1px solid #000000;">
+<tr>
+<td colspan="5" style="text-align: center; background-color: lightskyblue; border-bottom: 1px solid #000000"><h4>Subject Informed Consent and Blood Donation</h4></td>
+</tr>
+<tr>
+<td width="25%"></td>
+<td width="50%" colspan="3"><table cellpadding="26" cellspacing="0" style="border: 1px solid #6c757d; background-color: #CCCCCC; "><tr><td style="text-align: center"><p><small>Please insert label</small></p></td></tr></table></td>
+<td width="25%"></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Vorname:</strong></p></td>
+<td colspan="4" width="70%"><p>'.$data->getFirstname().'</p></td>
+</tr>
+<tr>
+<td width="30%"><p><strong>Nachname:</strong></p></td>
+<td colspan="4" width="70%"><p>'.$data->getLastname().'</p></td>
+</tr>
+<tr>
+<td colspan="5"><p>Ich habe eine Aufwandsentschädigung von 60 Euro erhalten.<br>Ich wurde darüber informiert, dass diese Aufwandsentschädigung steuerpflichtig ist.<br>Die Einsichtnahme in alle Unterlagen kann in begründeten Fällen durch Dritte erfolgen, z.B. Behörden und Auditoren. </p></td>
+</tr>
+<tr>
+<td width="30%"><p>Datum:</p></td>
+<td colspan="4" width="70%"><p>'.date('d / m / Y').'</p></td>
+</tr>
+<tr>
+<td width="30%"><p>Unterschrift:</p></td>
+<td colspan="4" width="70%"><p>________________________________________</p></td>
+</tr>
+</table>
 </header>';
 
         $pdf->WriteHTML($html);

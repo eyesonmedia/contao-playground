@@ -376,9 +376,9 @@ class SiowebDummyBundle extends Bundle
     {
         $studydata= \System::getContainer()->get('sioweb_dummybundle.service.search')->getStudyById($_GET['study_id']);
         \System::getContainer()->get('sioweb_dummybundle.service.search')->outputHTMLCheckin($studydata);
-        \System::getContainer()->get('sioweb_dummybundle.service.search')->setCheckinStatus($studydata->getId());
         \Contao\Message::addInfo('<span style="padding: 20px 5px; display: inline-block;"><strong style="border-bottom: 2px solid #006494">Status Checkin / Einweisung</strong> für Proband <strong style="border-bottom: 2px solid #006494">'. $studydata->getFirstname() . ' ' . $studydata->getLastname() .'</strong> wurde erfolgreich hinterlegt!</span>');
 
+        \System::getContainer()->get('sioweb_dummybundle.service.search')->setCheckinStatus($studydata->getId());
 
     }
 
@@ -388,10 +388,10 @@ class SiowebDummyBundle extends Bundle
     public function setCheckout(\Contao\DC_Table $dc)
     {
         $studydata= \System::getContainer()->get('sioweb_dummybundle.service.search')->getStudyById($_GET['study_id']);
-        \System::getContainer()->get('sioweb_dummybundle.service.search')->outputHTMLCheckout($studydata);
+        //\System::getContainer()->get('sioweb_dummybundle.service.search')->outputHTMLCheckout($studydata);
         \System::getContainer()->get('sioweb_dummybundle.service.search')->setCheckoutStatus($studydata->getId());
         \Contao\Message::addInfo('<span style="padding: 20px 5px; display: inline-block;"><strong style="border-bottom: 2px solid #006494">Blut abgenommen/Auszahlung</strong> für Proband <strong style="border-bottom: 2px solid #006494">'. $studydata->getFirstname() . ' ' . $studydata->getLastname() .'</strong> wurde erfolgreich hinterlegt!</span>');
-
+        \Contao\Controller::redirect('contao/main.php?do=NuvisanManageStudy');
     }
 
 }

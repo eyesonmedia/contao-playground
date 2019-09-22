@@ -113,6 +113,18 @@ class Study
      * @var string
      * @ORM\Column(type="text", length=255)
      */
+    private $checkindate;
+
+    /**
+     * @var string
+     * @ORM\Column(type="text", length=255)
+     */
+    private $blooddate;
+
+    /**
+     * @var string
+     * @ORM\Column(type="text", length=255)
+     */
     private $study;
 
     /**
@@ -483,6 +495,54 @@ class Study
     public function setRegisterdate($registerdate)
     {
         $this->registerdate = $registerdate;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of checkindate
+     *
+     * @return  int
+     */
+    public function getCheckindate()
+    {
+        return $this->checkindate;
+    }
+
+    /**
+     * Set the value of checkindate
+     *
+     * @param  int  $checkindate
+     *
+     * @return  self
+     */
+    public function setCheckindate($checkindate)
+    {
+        $this->checkindate = $checkindate;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of blooddate
+     *
+     * @return  int
+     */
+    public function getBlooddate()
+    {
+        return $this->blooddate;
+    }
+
+    /**
+     * Set the value of blooddate
+     *
+     * @param  int  $blooddate
+     *
+     * @return  self
+     */
+    public function setBlooddate($blooddate)
+    {
+        $this->blooddate = $blooddate;
 
         return $this;
     }

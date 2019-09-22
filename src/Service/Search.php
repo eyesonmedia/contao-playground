@@ -691,6 +691,12 @@ $html='<header>
 </td>
 <td width="60%">'.$data->getStreet().'<br>'.$data->getZip().' '.$data->getCity().'</td>
 </tr>
+<tr>
+<td width="40%">
+<p><strong>E-Mail:</strong></p>
+</td>
+<td width="60%">'.$data->getEmail().'</td>
+</tr>
 </table>
 <p>&nbsp;</p>
 </section>
@@ -770,15 +776,10 @@ $html='<header>
 </tr>
 <tr>
 <td width="30%"><p><strong>Age:</strong></p></td>
-<td colspan="2" width="70%"><p>'.$age.' <small>(if age over 18 - exclusion from study)</small></p></td>
+<td colspan="2" width="70%"><p>'.$age.' <small>(if age below 18 - exclusion from study)</small></p></td>
 </tr>
 <tr>
 <td width="70%"><p>Personal data were checked by verification of the identity card during check in-as well as a double registration to avoid multiple participations:</p></td>
-<td width="5%"><p><input type="checkbox" name="agree" value="1" /></p></td>
-<td width="25%"><p>Yes</p></td>
-</tr>
-<tr>
-<td width="70%"><p>Voluntary declaration was signed by employee and works council:<br><small>Only for NUVISAN  GmbH employees (needs to be completed if subject is a NUVISAN GmbH employee)</small></p></td>
 <td width="5%"><p><input type="checkbox" name="agree" value="1" /></p></td>
 <td width="25%"><p>Yes</p></td>
 </tr>
@@ -808,7 +809,7 @@ $html='<header>
 <td colspan="4" width="70%"><p>'.date('d / m / Y').' <small>(DD/MMM/YYYY)</small></p></td>
 </tr>
 <tr>
-<td colspan="5"><p>Required 3 Lithium Heparin plasma samples taken and filled sufficiently(start time):</p></td>
+<td colspan="5"><p>Required 3 Lithium Heparin plasma samples taken and filled sufficiently (start time):</p></td>
 </tr>
 <tr>
 <td width="2%"></td>
@@ -827,12 +828,12 @@ $html='<header>
 <td width="7%"><p>No</p></td>
 </tr>
 <tr>
-<td width="36%"><p>Comments (only if ‘yes’ was ticked): </p></td>
-<td width="64%" colspan="4"><p><small>___________________________________________________________________________</small></p></td>
+<td width="15%"><p>Comments: </p></td>
+<td width="85%" colspan="4"><p><small>________________________________________________________________________________________________________</small></p></td>
 </tr>
 <tr>
-<td width="36%"></td>
-<td width="64%" colspan="4"><p><small>___________________________________________________________________________</small></p></td>
+<td width="15%"></td>
+<td width="85%" colspan="4"><p><small>________________________________________________________________________________________________________</small></p></td>
 </tr>
 <tr>
 <td width="20%" colspan="2"></td>
@@ -895,6 +896,7 @@ $html='<header>
     {
         $study = $this->entityManager->getRepository('SiowebDummyBundle:Study')->find($id);
         $study->setStatus('Checkin/Einweisung');
+        $study->setCheckindate(date('Y-m-d H:i:s'));
         $this->entityManager->flush();
     }
 
@@ -1075,6 +1077,7 @@ $html='<header>
     {
         $study = $this->entityManager->getRepository('SiowebDummyBundle:Study')->find($id);
         $study->setStatus('Blut abgenommen/Auszahlung');
+        $study->setBlooddate(date('Y-m-d H:i:s'));
         $this->entityManager->flush();
     }
 }

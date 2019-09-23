@@ -356,7 +356,7 @@ class Search
          */
         $transport = \Swift_SmtpTransport::newInstance( 'w00a0565.kasserver.com', 587 );
         $transport->setUsername( 'm042205d' );
-        $transport->setPassword( 'UBqaImtNxpgVJ9gavxzI4G421G' );
+        $transport->setPassword( 'NbdKxAATzYw2QL8N' );
 
         /*
          * get message class / set message and set mail header
@@ -451,6 +451,11 @@ class Search
 
     public function getRegistrationById($id) {
         $data = $this->entityManager->getRepository('SiowebDummyBundle:Registration')->find($id);
+        return $data;
+    }
+
+    public function getRegistrationInternById($id) {
+        $data = $this->entityManager->getRepository('SiowebDummyBundle:Intern')->find($id);
         return $data;
     }
 
@@ -569,8 +574,45 @@ class Search
         $this->entityManager->flush();
     }
 
+    public function setRegistrationInternCheckin($id) {
+        /*
+         * update registration status to checkin first
+         */
+        $registration = $this->entityManager->getRepository('SiowebDummyBundle:Intern')->find($id);
+        $registration->setStatus('checked-in');
+        $this->entityManager->flush();
+    }
+
     public function generateStudy($id, $date, $timedata) {
         $registrationdata =\Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->getRegistrationById($id);
+        $study = new Study();
+        $study->setTimeid($registrationdata->getTimeid());
+        $study->setRegistrationid($registrationdata->getId());
+        $study->setRegistergroup($registrationdata->getRegistergroup());
+        if($registrationdata->getTitle() == 'Herr') {
+            $study->setTitle('männlich');
+        } else {
+            $study->setTitle('weiblich');
+        }
+        $study->setFirstname($registrationdata->getFirstname());
+        $study->setLastname($registrationdata->getLastname());
+        $study->setEmail($registrationdata->getEmail());
+        $study->setPhone($registrationdata->getPhone());
+        $study->setStreet($registrationdata->getStreet());
+        $study->setZip($registrationdata->getZip());
+        $study->setCity($registrationdata->getCity());
+        $study->setBirthday($registrationdata->getBirthday());
+        $study->setRegisterdate($date);
+        $study->setRegistertime($timedata);
+        $study->setStudy($registrationdata->getStudy());
+        $study->setStatus('offen');
+
+        $this->entityManager->persist($study);
+        $this->entityManager->flush();
+    }
+
+    public function generateStudyIntern($id, $date, $timedata) {
+        $registrationdata =\Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->getRegistrationInternById($id);
         $study = new Study();
         $study->setTimeid($registrationdata->getTimeid());
         $study->setRegistrationid($registrationdata->getId());

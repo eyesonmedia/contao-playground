@@ -232,7 +232,7 @@ class SiowebDummyBundle extends Bundle
          */
         $transport = \Swift_SmtpTransport::newInstance( 'w00a0565.kasserver.com', 587 );
         $transport->setUsername( 'm042205d' );
-        $transport->setPassword( 'UBqaImtNxpgVJ9gavxzI4G421G' );
+        $transport->setPassword( 'NbdKxAATzYw2QL8N' );
 
         /*
          * get message class / set message and set mail header
@@ -292,7 +292,7 @@ class SiowebDummyBundle extends Bundle
          */
         $transport = \Swift_SmtpTransport::newInstance( 'w00a0565.kasserver.com', 587 );
         $transport->setUsername( 'm042205d' );
-        $transport->setPassword( 'UBqaImtNxpgVJ9gavxzI4G421G' );
+        $transport->setPassword( 'NbdKxAATzYw2QL8N' );
 
         /*
          * get message class / set message and set mail header
@@ -366,7 +366,41 @@ class SiowebDummyBundle extends Bundle
 
     public function startStudyIntern(\Contao\DC_Table $dc)
     {
-        var_dump($_GET);die;
+        /*
+         * set variables
+         */
+        $timeid = \Input::get('time_id');
+        $registrationid = \Input::get('registration_id');
+
+        /*
+         * get registration data
+         */
+
+        $registrationdata =\Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->getRegistrationInternById($registrationid);
+        /*
+         * get time data
+         */
+        $timedata = \Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->findAllTimeById($timeid);
+        $dateobj = \Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->getDateById($timedata->getDateid());
+        $date = $dateobj->getDate();
+        $date = $date->format('d.m.Y');
+
+
+        /*
+         * update registration status to checkin first
+         */
+        \Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->setRegistrationInternCheckin($registrationid);
+
+        /*
+         * copy registration to study and generate study
+         */
+        \Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->generateStudyIntern($registrationid, $date, $timedata->getTime());
+
+        /*
+         * add messages and redirect to manage study view in backend
+         */
+        \Contao\Message::addInfo('<span style="padding: 20px 5px; display: inline-block;">Studie für Proband <strong style="border-bottom: 2px solid #006494">'. $registrationdata->getFirstname() . ' ' . $registrationdata->getLastname() .' (intern)</strong> wurde erfolgreich hinterlegt - Status offen!</span>');
+        \Contao\Controller::redirect('contao/main.php?do=NuvisanManageStudy');
     }
 
     /*

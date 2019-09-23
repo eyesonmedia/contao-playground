@@ -102,13 +102,13 @@ $GLOBALS['TL_DCA']['eonm_intern'] = array(
                 'icon'                => 'show.svg',
                 'button_callback' => ['eonm_intern_cancel_backend', 'cancelButtonRegistration']
             ),
-            /*'study' => array
+            'study' => array
             (
                 'label'               => &$GLOBALS['TL_LANG']['eonm_intern']['study'],
                 'href'                => 'act=show',
                 'icon'                => 'show.svg',
-                'button_callback' => ['eonm_registration_cancel_backend', 'startButtonStudy']
-            ),*/
+                'button_callback' => ['eonm_intern_cancel_backend', 'startButtonStudy']
+            ),
         )
     ),
 
@@ -414,9 +414,9 @@ class  eonm_intern_cancel_backend extends Backend
             return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: orange">Workflow gestartet</span>';
         }*/
         if($arrRow['status'] == 'aktiv') {
-            return '<a onclick="if(!confirm(\'Soll diese Anmeldung storniert werden?\'))return false;Backend.getScrollOffset()" href="' . $this->addToUrl('do=NuvisanManageIntern&key=storno&time_id='.$arrRow['timeid'].'&registration_id='.$arrRow['id'], true, ['do']) . '" title="stornieren" style="display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: green">stornieren</a>';
+            return '<a onclick="if(!confirm(\'Datenübernahme/Checkin für diese Anmeldung?\'))return false;Backend.getScrollOffset()" href="' . $this->addToUrl('do=NuvisanManageIntern&key=study&time_id='.$arrRow['timeid'].'&registration_id='.$arrRow['id'], true, ['do']) . '" title="Datenübernahme/Checkin" style="display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: green; margin-left: 5px;">Datenübernahme/Checkin</a>';
         } else {
-            return '<span style="cursor: no-drop; display: inline-block; padding: 4px 6px; font-weight:bold; color: white; background: #c42302">'.$arrRow['status'].'</span>';
+            return '';
         }
 
     }

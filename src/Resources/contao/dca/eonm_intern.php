@@ -102,13 +102,13 @@ $GLOBALS['TL_DCA']['eonm_intern'] = array(
                 'icon'                => 'show.svg',
                 'button_callback' => ['eonm_intern_cancel_backend', 'cancelButtonRegistration']
             ),
-            'study' => array
+            /*'study' => array
             (
                 'label'               => &$GLOBALS['TL_LANG']['eonm_intern']['study'],
                 'href'                => 'act=show',
                 'icon'                => 'show.svg',
                 'button_callback' => ['eonm_registration_cancel_backend', 'startButtonStudy']
-            ),
+            ),*/
         )
     ),
 

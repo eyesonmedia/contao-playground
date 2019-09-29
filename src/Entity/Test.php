@@ -51,6 +51,12 @@ class Test
      */
     protected $published = 1;
 
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=1, options={"default" : ""})
+     */
+    protected $hidden;
+
     // Diese Funktion ist sehr hilfreich, um alle Daten als Array zu erhalten.
     public function getData() {
         $arrData = [];
@@ -191,6 +197,30 @@ class Test
     public function setPublished($published)
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of hidden
+     *
+     * @return  string
+     */
+    public function getHidden()
+    {
+        return $this->hidden;
+    }
+
+    /**
+     * Set the value of hidden
+     *
+     * @param  string  $hidden
+     *
+     * @return  self
+     */
+    public function setHidden($hidden)
+    {
+        $this->hidden = $hidden;
 
         return $this;
     }

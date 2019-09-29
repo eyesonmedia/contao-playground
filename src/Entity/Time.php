@@ -39,6 +39,12 @@ class Time
     protected $count;
 
     /**
+     * @var int
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    protected $maxcount;
+
+    /**
      * @var string
      * @ORM\Column(type="text", length=65535, nullable=true)
      */
@@ -146,6 +152,30 @@ class Time
     public function setCount($count)
     {
         $this->count = $count;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of maxcount
+     *
+     * @return  int
+     */
+    public function getMaxcount()
+    {
+        return $this->maxcount;
+    }
+
+    /**
+     * Set the value of maxcount
+     *
+     * @param  int  $maxcount
+     *
+     * @return  self
+     */
+    public function setMaxcount($maxcount)
+    {
+        $this->maxcount = $maxcount;
 
         return $this;
     }

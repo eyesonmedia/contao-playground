@@ -87,15 +87,14 @@ if(VERSION <= 4.5) {
         )
     ));
 
+    $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageStudy']['checkin'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'setCheckin');
+    $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageStudy']['checkout'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'setCheckout');
 
-$GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageStudy']['checkin'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'setCheckin');
-$GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageStudy']['checkout'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'setCheckout');
+    $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageRegistration']['study'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'startStudy');
+    $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageIntern']['study'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'startStudyIntern');
 
-$GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageRegistration']['study'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'startStudy');
-$GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageIntern']['study'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'startStudyIntern');
+    $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageRegistration']['storno'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'makeStorno');
+    $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageIntern']['storno'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'makeStornoIntern');
 
-$GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageRegistration']['storno'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'makeStorno');
-$GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageIntern']['storno'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'makeStornoIntern');
-
-$GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageRegistration']['export'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'exportRegistration');
-$GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageIntern']['export'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'exportInternRegistration');
+    $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageRegistration']['export'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'exportRegistration');
+    $GLOBALS['BE_MOD']['DummyBundle']['NuvisanManageIntern']['export'] = array('Sioweb\DummyBundle\SiowebDummyBundle', 'exportInternRegistration');

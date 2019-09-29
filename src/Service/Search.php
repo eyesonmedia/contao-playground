@@ -85,6 +85,7 @@ class Search
             $avaibledates[$i]['date'] = $time['date']->format('d.m.Y');
             $avaibledates[$i]['time'] = $time[0]->getTime();
             $avaibledates[$i]['id'] = $time[0]->getId();
+            $avaibledates[$i]['description'] = $time[0]->getDescription();
             $i++;
         }
 
@@ -204,7 +205,8 @@ class Search
         }
 
         $count = $time->getCount();
-        if ( $count < 10 ) {
+        $maxcount = $time->getMaxcount();
+        if ( $count < $maxcount ) {
 
             $time->setCount($count+1);
             $this->entityManager->flush();
@@ -232,7 +234,8 @@ class Search
         }
 
         $count = $time->getCount();
-        if ( $count < 10 ) {
+        $maxcount = $time->getMaxcount();
+        if ( $count < $maxcount ) {
 
             $time->setCount($count+1);
             $this->entityManager->flush();

@@ -430,9 +430,14 @@ class  eonm_intern_cancel_backend extends Backend
 
         if($registration->getStatus() != 'aktiv') {
             $dates = \Contao\System::getContainer()->get('sioweb_dummybundle.service.search')->findAllTimesArray();
-
             foreach($dates as $date){
-                $return[$date['id']] = $date['date']. ' - ' . $date['time'];
+
+                if( strlen($date['description']) ) {
+                    $return[$date['id']] = $date['date']. ' - ' . $date['time'] . ' (' .$date['description'].')';
+                } else {
+                    $return[$date['id']] = $date['date']. ' - ' . $date['time'];
+                }
+
             }
         } else {
             $return[$registration->getTimeid()] = $registration->getRegisterdate();

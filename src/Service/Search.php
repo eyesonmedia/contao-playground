@@ -129,6 +129,7 @@ class Search
             ->where('d.id LIKE t.dateid')
             ->andWhere('t.count != 0')
             ->andWhere('d.published = 1')
+            ->andWhere('t.published = 1')
             ->orderBy('t.time', 'ASC')
             ->getQuery()
             ->getResult();

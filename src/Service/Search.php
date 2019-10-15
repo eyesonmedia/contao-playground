@@ -360,7 +360,7 @@ class Search
          */
         $transport = \Swift_SmtpTransport::newInstance( 'w00a0565.kasserver.com', 587 );
         $transport->setUsername( 'm042205d' );
-        $transport->setPassword( 'U6pHoCadsyGCAWd8' );
+        $transport->setPassword( 'hBSaz6HVtUrFmTAR' );
 
         /*
          * get message class / set message and set mail header
